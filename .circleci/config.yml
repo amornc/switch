@@ -18,6 +18,9 @@ parameters:
   GHA_Meta:
     type: string
     default: ""
+  GHA_Tag:
+    type: string
+    default: ""
 
 jobs:
   release:
