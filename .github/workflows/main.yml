@@ -7,15 +7,15 @@ on:
         description: 'CI'
         required: true
         default: '' 
-        type: string
-#        options:
-#        - circleci
-#        - github-action
+        type: choice
+        options:
+        - circleci
+        - github-action
   
 jobs:
   trigger-circleci:
     runs-on: ubuntu-latest
-    if:  ${{ inputs.ci }} == 'circleci' 
+    if:  ${{ github.event.inputs.ci }} == 'circleci' 
     steps:
       - name: trigger-circleci
         id: circleci
@@ -23,10 +23,10 @@ jobs:
         env:
           CCI_TOKEN: ${{ secrets.CCI_TOKEN }}
   
-#  trigger-github-action:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Print the ci to STDOUT
-#        if:  ${{ inputs.ci }} != 'circleci' 
-#        id: github-actions
-#        run: echo  The tags are ${{ inputs.ci }}
+  trigger-github-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the ci to STDOUT
+        if:  ${{ github.event.inputs.ci }} != 'circleci' 
+        id: github-actions
+        run: echo  The tags are ${{ inputs.ci }}
