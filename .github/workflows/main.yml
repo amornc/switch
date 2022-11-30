@@ -1,12 +1,12 @@
 on:
-#  release:
-#    types: [published]
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
       name:
         description: 'CI'
         required: true
-        default: '' 
+        default: 'circleci' 
         type: choice
         options:
         - circleci
@@ -15,7 +15,7 @@ on:
 jobs:
   trigger-circleci:
     runs-on: ubuntu-latest
-    if: github.event.inputs.name == 'circleci'
+    if: ${{ github.event.inputs.name == 'circleci' }}
     steps:
       - name: trigger-circleci
         id: circleci
@@ -25,8 +25,8 @@ jobs:
   
   trigger-github-action:
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.name != 'circleci' }} 
     steps:
       - name: Print the ci to STDOUT
-        if: github.event.inputs.name != 'circleci'
         id: github-actions
         run: echo  The tags are ${{ inputs.name }}
