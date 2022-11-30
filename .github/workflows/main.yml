@@ -7,10 +7,10 @@ on:
         description: 'CI'
         required: true
         default: '' 
-        type: choice
-        options:
-        - circleci
-        - github-action
+        type: string
+#        options:
+#        - circleci
+#        - github-action
   
 jobs:
   trigger-circleci:
