@@ -18,7 +18,15 @@ jobs:
     if:  ${{ inputs.ci }} == 'circleci'
     steps:
       - name: trigger-circleci
-        id: trigger
+        id: circleci
         uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.0
         env:
           CCI_TOKEN: ${{ secrets.CCI_TOKEN }}
+  
+  trigger-github-action:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.ci }} == 'github-actions'
+    steps:
+      - name: Print the ci to STDOUT
+        id: github-actions
+        run: echo  The tags are ${{ inputs.ci }}
