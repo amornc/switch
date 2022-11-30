@@ -6,7 +6,7 @@ on:
       ci:
         description: 'CI'
         required: true
-        default: 'circleci' 
+        default: '' 
         type: choice
         options:
         - circleci
@@ -25,7 +25,7 @@ jobs:
   
   trigger-github-action:
     runs-on: ubuntu-latest
-    if: ${{ inputs.ci }} == 'github-actions'
+    if: ${{ inputs.ci }} != 'circleci'
     steps:
       - name: Print the ci to STDOUT
         id: github-actions
