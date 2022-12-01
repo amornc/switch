@@ -33,8 +33,9 @@ jobs:
 
 workflows:
   release:
-    when:
-      and:
-        - equal: [ "circleci", << pipeline.parameters.GHA_Action >> ] 
+    when: false
+#    when:
+#      and:
+#        - equal: [ "circleci", << pipeline.parameters.GHA_Action >> ] 
     jobs:
       - release
