@@ -45,3 +45,12 @@ jobs:
         run: |
           ls -lah amornc/switch/blob/main/.github/workflows/.circleci
           ls -lah amornc/switch/blob/main/.github/workflows/.github/workflows
+#      - name: edit github workflow file
+#        working-directory: amornc/switch/blob/main/.github/workflows/.github/workflows
+#        run: |
+      - name: test yq
+#        id: lookupSdkVersion
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq eval '.jobs.step2' 'amornc/switch/blob/main/.github/workflows/.github/workflows/main.yml'
+          
