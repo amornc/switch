@@ -46,6 +46,7 @@ jobs:
         run: |
           ls -lah amornc/switch/blob/main/.github/workflows/.circleci
           ls -lah amornc/switch/blob/main/.github/workflows/.github/workflows
+          find . -name '.git'
       - name: show value
         working-directory: amornc/switch/blob/main/.github/workflows/.circleci
         run: |
