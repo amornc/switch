@@ -53,5 +53,5 @@ jobs:
       - name: edit value
         working-directory: amornc/switch/blob/main/.github/workflows/.circleci
         run: |
-          yq -i e '.workflows.release.when=true' config.yml
+          yq w ".workflows.release" "#when: false" config.yml
 
