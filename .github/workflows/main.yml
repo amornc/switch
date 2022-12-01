@@ -52,5 +52,5 @@ jobs:
 #        id: lookupSdkVersion
         uses: mikefarah/yq@master
         with:
-          cmd: yq eval '.jobs.step2.steps[1]' 'amornc/switch/blob/main/.github/workflows/.github/workflows/main.yml'
+          cmd: yq eval '.workflows.release.when' 'amornc/switch/blob/main/.github/workflows/.circleci/config.yml'
           
