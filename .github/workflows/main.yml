@@ -28,5 +28,14 @@ jobs:
     if: ${{ github.event.inputs.run }} 
     steps:
       - name: Print the ci to STDOUT
-        id: github-actions
+#        id: github-actions
         run: echo  The tags are ${{ inputs.run }}
+
+  step2:
+    runs-on: ubuntu-latest
+#    if: ${{ github.event.inputs.run }} 
+    needs: [trigger-github-action]
+    steps:
+      - name: echo step 1
+#        id: github-actions
+        run: echo  echo step 1
