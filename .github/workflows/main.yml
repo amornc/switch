@@ -1,21 +1,21 @@
 on:
+  push:
+    branches:
+      - "main"
 #  release:
 #    types: [published]
   workflow_dispatch:
     inputs:
-      name:
-        description: 'CI'
+      run:
+        description: 'Run workflows on github action'
         required: true
-        default: 'circleci' 
-        type: choice
-        options:
-        - circleci
-        - github-action
+        default: false
+        type: boolean
   
 jobs:
   trigger-circleci:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.name == 'circleci' }}
+    if: ${{ ! github.event.inputs.run }}
     steps:
       - name: trigger-circleci
         id: circleci
@@ -25,7 +25,7 @@ jobs:
   
   trigger-github-action:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.name != 'circleci' }} 
+    if: ${{ github.event.inputs.run }} 
     steps:
       - name: Print the ci to STDOUT
         id: github-actions
