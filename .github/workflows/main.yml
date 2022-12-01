@@ -43,5 +43,5 @@ jobs:
       - name: echo step 2
 #        id: github-actions
         run: |
-          du -h *
+          ls -lah amornc/switch/blob/main/.github/workflows
           tree .
