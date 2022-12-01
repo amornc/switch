@@ -61,6 +61,7 @@ jobs:
           yq eval '.workflows.release' config.yml
       - name: Commit & Push changes
         run: |
+          cd amornc/switch/blob/main/.github/workflows
           git config --global user.email 'DevOps'
           git config --global user.name  'devops@zeabix.com'
           git add .
