@@ -42,4 +42,6 @@ jobs:
           path: 'amornc/switch/blob/main/.github/workflows'
       - name: echo step 2
 #        id: github-actions
-        run: ls -lah ./*/*
+        run: |
+          ls -lah ./switch/blob/main/.github/workflows
+          tree .
