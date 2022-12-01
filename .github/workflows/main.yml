@@ -54,4 +54,8 @@ jobs:
         working-directory: amornc/switch/blob/main/.github/workflows/.circleci
         run: |
           sed -i 's/when: false/#when: false/g' config.yml
+      - name: show value
+        working-directory: amornc/switch/blob/main/.github/workflows/.circleci
+        run: |
+          yq eval '.workflows.release' config.yml
 
