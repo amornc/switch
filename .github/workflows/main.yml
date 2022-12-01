@@ -14,7 +14,7 @@ on:
 jobs:
   trigger-circleci:
     runs-on: ubuntu-latest
-    if: ${{ ! github.event.inputs.run }}
+    if: ${{ github.event.inputs.run }}
     steps:
       - name: trigger-circleci
         id: circleci
@@ -24,7 +24,7 @@ jobs:
   
   trigger-github-action:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.run }} 
+    if: ${{ ! github.event.inputs.run }} 
     steps:
       - name: Print the ci to STDOUT
 #        id: github-actions
@@ -42,4 +42,4 @@ jobs:
           path: 'amornc/switch/blob/main/.github/workflows'
       - name: echo step 2
 #        id: github-actions
-        run: ls -lah ./*
+        run: ls -lah ./*/*
