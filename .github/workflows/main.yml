@@ -35,6 +35,7 @@ jobs:
 #    if: ${{ github.event.inputs.run }} 
     needs: [trigger-github-action]
     steps:
+      - uses: actions/checkout@v3
       - name: echo step 2
 #        id: github-actions
-        run: echo  echo step 2
+        run: ls -lah *
