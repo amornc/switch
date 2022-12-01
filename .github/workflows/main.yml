@@ -29,4 +29,4 @@ jobs:
     steps:
       - name: Print the ci to STDOUT
         id: github-actions
-        run: echo  The tags are ${{ inputs.name }}
+        run: echo  The tags are ${{ inputs.run }}
