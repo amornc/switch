@@ -58,4 +58,10 @@ jobs:
         working-directory: amornc/switch/blob/main/.github/workflows/.circleci
         run: |
           yq eval '.workflows.release' config.yml
-
+      - name: Commit & Push changes
+        run: |
+          git config --global user.email 'DevOps'
+          git config --global user.name  'devops@zeabix.com'
+          git add .
+          git commit -m "Enable CircleCI workflows"
+          git push https://${{ secrets.CD_PAT }}@github.com/amornc/switch.git
