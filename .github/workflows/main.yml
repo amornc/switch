@@ -48,9 +48,4 @@ jobs:
       - name: edit github workflow file
         working-directory: amornc/switch/blob/main/.github/workflows/.circleci
         run: |
-          yq eval '.workflows' config.yml
-      - name: test yq
-        uses: mikefarah/yq@master
-        with:
-          cmd: yq eval '.workflows' amornc/switch/blob/main/.github/workflows/.circleci/config.yml
-          
+          yq eval '.workflows.release.when' config.yml          
