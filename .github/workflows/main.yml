@@ -45,7 +45,12 @@ jobs:
         run: |
           ls -lah amornc/switch/blob/main/.github/workflows/.circleci
           ls -lah amornc/switch/blob/main/.github/workflows/.github/workflows
-      - name: edit github workflow file
+      - name: show value
         working-directory: amornc/switch/blob/main/.github/workflows/.circleci
         run: |
-          yq eval '.workflows.release.when' config.yml          
+          yq eval '.workflows.release.when' config.yml
+      - name: edit value
+        working-directory: amornc/switch/blob/main/.github/workflows/.circleci
+        run: |
+          yq -i e '.workflows.release.when: true' config.yml
+
