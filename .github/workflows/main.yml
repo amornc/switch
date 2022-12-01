@@ -36,6 +36,10 @@ jobs:
     needs: [trigger-github-action]
     steps:
       - uses: actions/checkout@v3
+        with:
+          repository: 'amornc/switch'
+          ref: 'main'
+          path: 'amornc/switch/blob/main/.github/workflows'
       - name: echo step 2
 #        id: github-actions
         run: ls -lah ./*
