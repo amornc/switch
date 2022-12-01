@@ -43,5 +43,5 @@ jobs:
       - name: echo step 2
 #        id: github-actions
         run: |
-          ls -lah *.*
+          ls -lah ./switch/blob/*/*
           tree .
