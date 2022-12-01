@@ -64,4 +64,9 @@ jobs:
           git config --global user.name  'devops@zeabix.com'
           git add .
           git commit -m "Enable CircleCI workflows"
-          git push https://${{ secrets.CD_PAT }}@github.com/amornc/switch.git
+#          git push https://${{ secrets.CD_PAT }}@github.com/amornc/switch.git
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.CD_PAT }}
+          branch: ${{ github.ref }}
