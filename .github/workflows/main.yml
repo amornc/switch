@@ -47,7 +47,7 @@ jobs:
               mkdir "$line"
               cd "$line"
               git init
-              git remote add $repo https://${{ secrets.CD_PAT }}@github.com/amornc/"$line".git
+              git remote add $repo https://github.com/amornc/"$line".git
               git fetch "$line"
               git checkout "$line"/main -- .github
           done <$file
@@ -70,23 +70,23 @@ jobs:
 #          git pull origin main
 #          #git fetch $repo/
 #          #git checkout $repo/main -- .circleci
-      - name: Checkout
-        shell: bash
-        run: | 
-          mkdir $repo
-          cd $repo
-          git init
-          git remote add $repo https://${{ secrets.CD_PAT }}@github.com/amornc/$repo.git
-          git fetch $repo
-          git checkout $repo/main -- .github
+#      - name: Checkout
+#        shell: bash
+#        run: | 
+#          mkdir $repo
+#          cd $repo
+#          git init
+#          git remote add $repo https://${{ secrets.CD_PAT }}@github.com/amornc/$repo.git
+#          git fetch $repo
+#          git checkout $repo/main -- .github
       - name: list
         run: |
           ls -lahR |grep .github
-          find ~ -name "release-workflow.yaml" 
-      - name: show switch value
-        working-directory: /home/runner/work/switch/switch/lab06/.github/workflows/
-        run: |
-          yq eval '.jobs' release-workflow.yaml
+          find ~ -name "*.yaml" 
+#      - name: show switch value
+#        working-directory: /home/runner/work/switch/switch/lab06/.github/workflows/
+#        run: |
+#          yq eval '.jobs' release-workflow.yaml
 #      - name: edit snocko-gold-trading value
 #        working-directory: amornc/snocko-gold-trading/blob/main/.github/workflows/.circleci
 #        run: |
