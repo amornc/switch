@@ -73,7 +73,7 @@ jobs:
       - name: show switch value
         working-directory: /home/runner/work/switch/switch/lab06/.github/workflows/
         run: |
-          yq eval '.jobs[]' release-workflow.yaml
+          yq eval '.jobs.' release-workflow.yaml
 #      - name: edit snocko-gold-trading value
 #        working-directory: amornc/snocko-gold-trading/blob/main/.github/workflows/.circleci
 #        run: |
