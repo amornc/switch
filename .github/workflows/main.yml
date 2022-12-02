@@ -35,6 +35,9 @@ jobs:
         run: |
           pwd
           find . -name '*.yaml' >> workflows.txt
+      - name: Install jq command
+        run: |
+          sudo apt install jq
       - name: disable-github-workflows
         shell: bash
         env:
