@@ -57,8 +57,6 @@ jobs:
 #          #git checkout $repo/main -- .circleci
       - name: Checkout
         shell: bash
-        env:
-          repo: lab06
         run: | 
           mkdir $repo
           cd $repo
