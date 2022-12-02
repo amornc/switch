@@ -68,59 +68,11 @@ jobs:
           git checkout $repo/main -- .github
       - name: list
         run: |
-          pwd 
-      - name: list
-        run: |
           ls -lahR
-          ls -lah lab06
-#          cd $repo
-#          ls -lah 
-#          ls -lah .github
       - name: show switch value
         working-directory: .circleci
         run: |
-          yq eval '.jobs' release-workflow.yaml
-#      - name: checkout switch repository
-#        uses: actions/checkout@v3
-#        with:
-#          repository: $repo
-#          ref: 'main'
-#          path: 'amornc/$repo/blob/main/.github/workflows'
-#          token: ${{ secrets.CD_PAT }}
-#      - name: checkout switch repository
-#        uses: actions/checkout@v3
-#        with:
-#          repository: 'amornc/switch'
-#          ref: 'main'
-#          path: 'amornc/switch/blob/main/.github/workflows'
-#          token: ${{ secrets.CD_PAT }}
-#      - name: checkout snocko-gold-trading repository
-#        uses: actions/checkout@v3
-#        with:
-#          repository: 'amornc/snocko-gold-trading'
-#          ref: 'main'
-#          path: 'amornc/snocko-gold-trading/blob/main/.github/workflows'
-#          token: ${{ secrets.CD_PAT }}
-#      - name: echo switch repository
-##        id: github-actions
-#        run: |
-#          ls -lah amornc/switch/blob/main/.github/workflows/.circleci
-#          ls -lah amornc/switch/blob/main/.github/workflows/.github/workflows
-#          find . -name '.git'
-#      - name: echo snocko-gold-trading repository
-##        id: github-actions
-#        run: |
-#          ls -lah amornc/snocko-gold-trading/blob/main/.github/workflows/.circleci
-#          ls -lah amornc/snocko-gold-trading/blob/main/.github/workflows/.github/workflows
-#          find . -name '.git'
-#      - name: show switch value
-#        working-directory: amornc/switch/blob/main/.github/workflows/.circleci
-#        run: |
-#          yq eval '.workflows.release.when' config.yml
-#      - name: show snocko-gold-trading value
-#        working-directory: amornc/snocko-gold-trading/blob/main/.github/workflows/.circleci
-#        run: |
-#          yq eval '.workflows.Dev_WorkFlow' config.yml
+          yq eval '.jobs[*]' release-workflow.yaml
 #      - name: edit snocko-gold-trading value
 #        working-directory: amornc/snocko-gold-trading/blob/main/.github/workflows/.circleci
 #        run: |
