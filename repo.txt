@@ -1,6 +1,5 @@
 lab06
 test10
-snocko-dev-pipeline
 blog-service
 tiamut-prefixs-service
 snocko-gold-trading
