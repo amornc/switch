@@ -41,28 +41,39 @@ jobs:
 #        shell: bash
 #        run: | 
 #          sh echo.sh
+#      - name: Checkout
+#        shell: bash
+#        env:
+#          repo: lab07
+#        run: | 
+#          mkdir $repo
+#          cd $repo
+#          git init
+#          git remote add -f origin https://${{ secrets.CD_PAT }}@github.com/amornc/$repo.git
+#          git config core.sparseCheckout true
+#          echo ".github" >> .git/info/sparse-checkout
+#          git pull origin main
+#          #git fetch $repo/
+#          #git checkout $repo/main -- .circleci
       - name: Checkout
         shell: bash
         env:
-          repo: lab07
+          repo: lab06
         run: | 
           mkdir $repo
           cd $repo
           git init
-          git remote add -f origin https://${{ secrets.CD_PAT }}@github.com/amornc/$repo.git
-          git config core.sparseCheckout true
-          echo ".github" >> .git/info/sparse-checkout
-          git pull origin main
-          #git fetch $repo
-          #git checkout $repo/main -- .circleci
+          git remote add $repo https://${{ secrets.CD_PAT }}@github.com/amornc/$repo.git
+          git fetch $repo
+          git checkout $repo/main -- .github
       - name: list
         run: |
-          ls -lah $repo
-          #ls -lah .circleci
-#      - name: show switch value
-#        working-directory: .circleci
-#        run: |
-#          yq eval '.workflows.release' config.yml
+          ls -lah $repo/
+          ls -lah .github
+      - name: show switch value
+        working-directory: .circleci
+        run: |
+          yq eval '.jobs' release-workflow.yaml
 #      - name: checkout switch repository
 #        uses: actions/checkout@v3
 #        with:
