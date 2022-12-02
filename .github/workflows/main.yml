@@ -41,13 +41,23 @@ jobs:
         shell: bash
         run: | 
           sh echo.sh
-      - name: checkout switch repository
-        uses: actions/checkout@v3
-        with:
-          repository: $repo
-          ref: 'main'
-          path: 'amornc/$repo/blob/main/.github/workflows'
-          token: ${{ secrets.CD_PAT }}
+      - name: Checkout
+        run: |
+          git init
+          git remote add snocko-gold-trading https://github.com/amornc/snocko-gold-trading.git
+          git fetch snocko-gold-trading
+          git checkout snocko-gold-trading/develop -- .circleci
+      - name: show switch value
+        working-directory: .circleci
+        run: |
+          yq eval '.workflows.release' config.yml
+#      - name: checkout switch repository
+#        uses: actions/checkout@v3
+#        with:
+#          repository: $repo
+#          ref: 'main'
+#          path: 'amornc/$repo/blob/main/.github/workflows'
+#          token: ${{ secrets.CD_PAT }}
 #      - name: checkout switch repository
 #        uses: actions/checkout@v3
 #        with:
