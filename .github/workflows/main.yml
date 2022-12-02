@@ -41,6 +41,13 @@ jobs:
         shell: bash
         run: | 
           sh echo.sh
+      - name: checkout switch repository
+        uses: actions/checkout@v3
+        with:
+          repository: $line
+          ref: 'main'
+          path: '$line/blob/main/.github/workflows'
+          token: ${{ secrets.CD_PAT }}
 #      - name: checkout switch repository
 #        uses: actions/checkout@v3
 #        with:
