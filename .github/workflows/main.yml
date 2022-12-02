@@ -42,11 +42,12 @@ jobs:
         run: | 
           sh echo.sh
       - name: Checkout
+        shell: bash
         run: |
           #git init
-          git remote add loadtest https://${{ secrets.CD_PAT }}@github.com/nocnoc-loadtest.git
-          git fetch loadtest
-          git checkout loadtest/main -- .github
+          git remote add nocnoc-loadtest https://${{ secrets.CD_PAT }}@github.com/nocnoc-loadtest.git
+          git fetch nocnoc-loadtest
+          git checkout nocnoc-loadtest/main -- .github
       - name: show switch value
         working-directory: .circleci
         run: |
