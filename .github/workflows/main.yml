@@ -47,9 +47,12 @@ jobs:
           mkdir tiamut-prefixs-service
           cd tiamut-prefixs-service
           git init
-          git remote add tiamut-prefixs-service https://${{ secrets.CD_PAT }}@github.com/amornc/tiamut-prefixs-service.git
-          git fetch tiamut-prefixs-service
-          git checkout tiamut-prefixs-service/main -- .circleci
+          git remote add -f origin https://github.com/amornc/tiamut-prefixs-service.git
+          git config core.sparseCheckout true
+          echo ".circleci" >> .git/info/sparse-checkout
+          git pull origin master
+          #git fetch tiamut-prefixs-service
+          #git checkout tiamut-prefixs-service/main -- .circleci
       - name: list
         run: |
           ls -lah 
