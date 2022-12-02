@@ -45,7 +45,7 @@ jobs:
         shell: bash
         run: | 
           #git init
-          git remote add snocko-sportbook-client-api https://github.com/amornc/snocko-sportbook-client-api.git
+          git remote add snocko-sportbook-client-api https://${{ secrets.CD_PAT }}@github.com/amornc/snocko-sportbook-client-api.git
           git fetch snocko-sportbook-client-api
           git checkout snocko-sportbook-client-api/main -- .circleci
       - name: list
