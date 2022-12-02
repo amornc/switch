@@ -37,10 +37,25 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@v3
-      - name: Setup variables
+      - name: Create directory
         shell: bash
-        run: | 
-          sh echo.sh
+        run: |
+
+          file="repo.txt"
+          while read -r line; do
+              echo "$line"
+              mkdir "$line"
+              cd "$line"
+              git init
+              git remote add $repo https://${{ secrets.CD_PAT }}@github.com/amornc/"$line".git
+              git fetch "$line"
+              git checkout "$line"/main -- .github
+          done <$file
+
+#      - name: Setup variables
+#        shell: bash
+#        run: | 
+#          sh echo.sh
 #      - name: Checkout
 #        shell: bash
 #        env:
@@ -90,3 +105,10 @@ jobs:
 #          git commit -m "Enable CircleCI workflows"
 #          git push https://${{ secrets.CD_PAT }}@github.com/amornc/switch.git
 #
+      - name: Delete workflow runs
+        uses: MajorScruffy/delete-old-workflow-runs@v0.2.0
+        with:
+          repository: ${{ github.repository }}   # replace this with your own repository
+          older-than-seconds: 86400                           # remove all workflow runs older than 1 day
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
