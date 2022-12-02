@@ -45,5 +45,5 @@ jobs:
               echo "$line"
               gh api \
               -H "Accept: application/vnd.github+json" \
-              /repos/amornc/$line/actions/workflows
+              /repos/amornc/$line/actions/workflows | jd '.id'
           done <$file
