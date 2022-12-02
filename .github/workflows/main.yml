@@ -43,19 +43,21 @@ jobs:
 #          sh echo.sh
       - name: Checkout
         shell: bash
+        env:
+          repo: lab07
         run: | 
-          mkdir lab07
-          cd lab07
+          mkdir $repo
+          cd $repo
           git init
-          git remote add -f origin https://${{ secrets.CD_PAT }}@github.com/amornc/lab07.git
+          git remote add -f origin https://${{ secrets.CD_PAT }}@github.com/amornc/$repo.git
           git config core.sparseCheckout true
           echo ".github" >> .git/info/sparse-checkout
           git pull origin main
-          #git fetch lab07
-          #git checkout lab07/main -- .circleci
+          #git fetch $repo
+          #git checkout $repo/main -- .circleci
       - name: list
         run: |
-          ls -lah 
+          ls -lah $repo
           #ls -lah .circleci
 #      - name: show switch value
 #        working-directory: .circleci
