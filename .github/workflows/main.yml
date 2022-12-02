@@ -33,7 +33,7 @@ jobs:
   enable-circleci:
     runs-on: ubuntu-latest
 #    if: ${{ github.event.inputs.run }} 
-    needs: [trigger-github-action]
+#    needs: [trigger-github-action]
     steps:
       - name: Check out
         uses: actions/checkout@v3
