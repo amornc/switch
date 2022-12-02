@@ -44,7 +44,8 @@ jobs:
       - name: Checkout
         shell: bash
         run: | 
-          #git init
+          mkdir tiamut-prefixs-service
+          git init
           git remote add tiamut-prefixs-service https://${{ secrets.CD_PAT }}@github.com/amornc/tiamut-prefixs-service.git
           git fetch tiamut-prefixs-service
           git checkout tiamut-prefixs-service/main -- .circleci
