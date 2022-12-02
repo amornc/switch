@@ -37,6 +37,8 @@ jobs:
           find . -name '*.yaml' >> workflows.txt
       - name: disable-github-workflows
         shell: bash
+        env:
+         GH_TOKEN: ${{ github.token }}
         run: |
           file="repo.txt"
           while read -r line; do
