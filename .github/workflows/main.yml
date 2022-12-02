@@ -16,6 +16,8 @@ jobs:
           cd enable-circleci
       - name: Create directory
         shell: bash
+        env:
+         GH_TOKEN: ${{ secrets.CD_PAT }}
         run: |
           file="repo.txt"
           while read -r line; do
