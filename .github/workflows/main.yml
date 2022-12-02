@@ -83,8 +83,9 @@ jobs:
 #          git checkout $repo/main -- .github
       - name: list
         run: |
+          ls -lah
           ls -lahR |grep .github
-          find ~ -name "*.yaml" 
+#          find ~ -name "*.yaml" 
 #      - name: show switch value
 #        working-directory: /home/runner/work/switch/switch/lab06/.github/workflows/
 #        run: |
@@ -106,11 +107,3 @@ jobs:
 #          git add .
 #          git commit -m "Enable CircleCI workflows"
 #          git push https://${{ secrets.CD_PAT }}@github.com/amornc/switch.git
-#
-      - name: Delete workflow runs
-        uses: MajorScruffy/delete-old-workflow-runs@v0.2.0
-        with:
-          repository: ${{ github.repository }}   # replace this with your own repository
-          older-than-seconds: 86400                           # remove all workflow runs older than 1 day
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
