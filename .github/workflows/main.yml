@@ -84,7 +84,7 @@ jobs:
       - name: list
         run: |
           ls -lah
-          ls -lahR |grep .github
+          ls -lahR |grep .github/workflows/
 #          find ~ -name "*.yaml" 
 #      - name: show switch value
 #        working-directory: /home/runner/work/switch/switch/lab06/.github/workflows/
