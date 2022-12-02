@@ -44,15 +44,15 @@ jobs:
       - name: Checkout
         shell: bash
         run: | 
-          mkdir tiamut-prefixs-service
-          cd tiamut-prefixs-service
+          mkdir lab07
+          cd lab07
           git init
-          git remote add -f origin https://${{ secrets.CD_PAT }}@github.com/amornc/tiamut-prefixs-service.git
+          git remote add -f origin https://${{ secrets.CD_PAT }}@github.com/amornc/lab07.git
           git config core.sparseCheckout true
-          echo ".circleci" >> .git/info/sparse-checkout
+          echo ".github" >> .git/info/sparse-checkout
           git pull origin main
-          #git fetch tiamut-prefixs-service
-          #git checkout tiamut-prefixs-service/main -- .circleci
+          #git fetch lab07
+          #git checkout lab07/main -- .circleci
       - name: list
         run: |
           ls -lah 
