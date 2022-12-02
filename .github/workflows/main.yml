@@ -45,6 +45,7 @@ jobs:
         shell: bash
         run: | 
           mkdir tiamut-prefixs-service
+          cd tiamut-prefixs-service
           git init
           git remote add tiamut-prefixs-service https://${{ secrets.CD_PAT }}@github.com/amornc/tiamut-prefixs-service.git
           git fetch tiamut-prefixs-service
