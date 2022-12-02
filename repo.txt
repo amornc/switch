@@ -2,7 +2,6 @@ lab06
 test10
 blog-service
 nocnoc-loadtest
-ticketing
 argo-rollouts
 pttgc-deploy-aks-and-azure-app-service
 pttgc-deploy-azure-app-service
