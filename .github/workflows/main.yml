@@ -37,10 +37,13 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@v3
+      - name: Create root directory
+        run: |
+          mkdir enable-circleci
+          cd enable-circleci
       - name: Create directory
         shell: bash
         run: |
-
           file="repo.txt"
           while read -r line; do
               echo "$line"
@@ -51,6 +54,7 @@ jobs:
               git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
               git fetch $line
               git checkout $line/main -- .github
+              ls -lah .github/workflows/
               cd ..
           done <$file
 
@@ -83,8 +87,8 @@ jobs:
 #          git checkout $repo/main -- .github
       - name: list
         run: |
-          ls -lahR ~ |grep workflows
-#          find ~ -name "*.yaml" 
+          #ls -lahR ~ |grep workflows
+          find ~/enable-circleci -name "*.yaml" 
 #      - name: show switch value
 #        working-directory: /home/runner/work/switch/switch/lab06/.github/workflows/
 #        run: |
