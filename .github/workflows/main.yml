@@ -35,9 +35,6 @@ jobs:
         run: |
           pwd
           find . -name '*.yaml' >> workflows.txt
-      - name: Install jq command
-        run: |
-          sudo apt install jq
       - name: disable-github-workflows
         shell: bash
         env:
@@ -48,5 +45,11 @@ jobs:
               echo "$line"
               gh api \
               -H "Accept: application/vnd.github+json" \
-              /repos/amornc/$line/actions/workflows | jq '.id'
+              /repos/amornc/$line/actions/workflows >> workflows-id.txt
           done <$file
+      - name: Upload workflows-id.txt
+        uses: actions/upload-artifact@v2
+        with:
+          name: workflows-id.txt
+          path: .
+          if-no-files-found: error
