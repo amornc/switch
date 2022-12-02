@@ -45,7 +45,7 @@ jobs:
         shell: bash
         run: |
           #git init
-          git remote add nocnoc-loadtest https://${{ secrets.CD_PAT }}@github.com/nocnoc-loadtest.git
+          git remote add nocnoc-loadtest https://${{ secrets.CD_PAT }}@github.com/amornc/nocnoc-loadtest.git
           git fetch nocnoc-loadtest
           git checkout nocnoc-loadtest/main -- .github
       - name: show switch value
