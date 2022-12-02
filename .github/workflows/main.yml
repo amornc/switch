@@ -68,9 +68,11 @@ jobs:
           git checkout $repo/main -- .github
       - name: list
         run: |
-          cd $repo
-          ls -lah 
-          ls -lah .github
+          pwd 
+          ls -lah
+#          cd $repo
+#          ls -lah 
+#          ls -lah .github
       - name: show switch value
         working-directory: .circleci
         run: |
