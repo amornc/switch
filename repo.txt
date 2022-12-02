@@ -1,6 +1,10 @@
 lab06
 test10
 blog-service
-snocko-gold-trading
-snocko-sportbook-client-api
 nocnoc-loadtest
+ticketing
+argo-rollouts
+pttgc-deploy-aks-and-azure-app-service
+pttgc-deploy-azure-app-service
+pttgc-source-code-scanning
+argocd-demo
