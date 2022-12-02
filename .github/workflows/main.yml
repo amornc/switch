@@ -69,7 +69,7 @@ jobs:
       - name: list
         run: |
           ls -lahR |grep .github
-          find -name "release-workflow.yaml" /
+          find / -name "release-workflow.yaml" 
       - name: show switch value
         working-directory: ./lab06/.github/workflows
         run: |
