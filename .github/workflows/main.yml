@@ -44,9 +44,9 @@ jobs:
       - name: checkout switch repository
         uses: actions/checkout@v3
         with:
-          repository: $line
+          repository: $repo
           ref: 'main'
-          path: '$line/blob/main/.github/workflows'
+          path: '$repo/blob/main/.github/workflows'
           token: ${{ secrets.CD_PAT }}
 #      - name: checkout switch repository
 #        uses: actions/checkout@v3
