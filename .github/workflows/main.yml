@@ -37,10 +37,10 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@v3
-#      - name: Setup variables
-#        shell: bash
-#        run: | 
-#          sh echo.sh
+      - name: Setup variables
+        shell: bash
+        run: | 
+          sh echo.sh
 #      - name: Checkout
 #        shell: bash
 #        env:
