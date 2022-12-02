@@ -1,0 +1,4 @@
+amornc/lab06
+amornc/test10cd
+amornc/test10
+amornc/lab07
