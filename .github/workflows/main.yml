@@ -56,11 +56,11 @@ jobs:
       - name: list
         run: |
           ls -lah 
-          ls -lah .circleci
-      - name: show switch value
-        working-directory: .circleci
-        run: |
-          yq eval '.workflows.release' config.yml
+          #ls -lah .circleci
+#      - name: show switch value
+#        working-directory: .circleci
+#        run: |
+#          yq eval '.workflows.release' config.yml
 #      - name: checkout switch repository
 #        uses: actions/checkout@v3
 #        with:
