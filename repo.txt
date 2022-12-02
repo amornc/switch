@@ -1,7 +1,6 @@
 lab06
 test10
 blog-service
-tiamut-prefixs-service
 snocko-gold-trading
 snocko-sportbook-client-api
 nocnoc-loadtest
