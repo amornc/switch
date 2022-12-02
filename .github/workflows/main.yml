@@ -48,7 +48,7 @@ jobs:
               ls -lah
               cd $line
               git init
-              git remote add $line https://github.com/amornc/$line.git
+              git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
               git fetch $line
               git checkout $line/main -- .github
           done <$file
