@@ -47,11 +47,11 @@ jobs:
           #git init
           git remote add nocnoc-loadtest https://${{ secrets.CD_PAT }}@github.com/amornc/nocnoc-loadtest.git
           git fetch nocnoc-loadtest
-          git checkout nocnoc-loadtest/main -- .github
+          git checkout nocnoc-loadtest/main -- .circleci
       - name: list
         run: |
           ls -lah 
-          ls -lah .github
+          ls -lah .circleci
       - name: show switch value
         working-directory: .circleci
         run: |
