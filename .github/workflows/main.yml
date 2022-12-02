@@ -83,7 +83,7 @@ jobs:
 #          git checkout $repo/main -- .github
       - name: list
         run: |
-          ls -lahR ~ |grep workflows/
+          ls -lahR ~ |grep workflows
 #          find ~ -name "*.yaml" 
 #      - name: show switch value
 #        working-directory: /home/runner/work/switch/switch/lab06/.github/workflows/
