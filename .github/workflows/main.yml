@@ -68,8 +68,8 @@ jobs:
           git checkout $repo/main -- .github
       - name: list
         run: |
-          ls -lah $repo/
-          ls -lah .github
+          ls -lah 
+          ls -lah $repo/.github
       - name: show switch value
         working-directory: .circleci
         run: |
