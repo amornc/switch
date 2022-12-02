@@ -1,0 +1,113 @@
+on:
+  push:
+    branches:
+      - "main"
+
+#  workflow_dispatch:
+#    inputs:
+#      run:
+#        description: 'Run workflows on github action'
+#        required: true
+#        default: false
+#        type: boolean
+  
+jobs:
+#  trigger-circleci:
+#    runs-on: ubuntu-latest
+#    if: ${{ github.event.inputs.run }}
+#    steps:
+#      - name: trigger-circleci
+#        id: circleci
+#        uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.0
+#        env:
+#          CCI_TOKEN: ${{ secrets.CCI_TOKEN }}
+#  
+#  trigger-github-action:
+#    runs-on: ubuntu-latest
+#    if: ${{ ! github.event.inputs.run }} 
+#    steps:
+#      - name: Print the ci to STDOUT
+##        id: github-actions
+#        run: echo  The tags are ${{ inputs.run }}
+
+  enable-circleci:
+    runs-on: ubuntu-latest
+#    if: ${{ github.event.inputs.run }} 
+#    needs: [trigger-github-action]
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+      - name: Create root directory
+        run: |
+          mkdir enable-circleci
+          cd enable-circleci
+      - name: Create directory
+        shell: bash
+        run: |
+          file="repo.txt"
+          while read -r line; do
+              echo "$line"
+              mkdir "$line"
+              ls -lah
+              cd $line
+              git init
+              git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
+              git fetch $line
+              git checkout $line/main -- .github
+              ls -lah .github/workflows/
+              cd ..
+          done <$file
+
+#      - name: Setup variables
+#        shell: bash
+#        run: | 
+#          sh echo.sh
+#      - name: Checkout
+#        shell: bash
+#        env:
+#          repo: lab07
+#        run: | 
+#          mkdir $repo
+#          cd $repo
+#          git init
+#          git remote add -f origin https://${{ secrets.CD_PAT }}@github.com/amornc/$repo.git
+#          git config core.sparseCheckout true
+#          echo ".github" >> .git/info/sparse-checkout
+#          git pull origin main
+#          #git fetch $repo/
+#          #git checkout $repo/main -- .circleci
+#      - name: Checkout
+#        shell: bash
+#        run: | 
+#          mkdir $repo
+#          cd $repo
+#          git init
+#          git remote add $repo https://${{ secrets.CD_PAT }}@github.com/amornc/$repo.git
+#          git fetch $repo
+#          git checkout $repo/main -- .github
+      - name: list
+        shell: bash
+        run: |
+          pwd
+          find . -name '*.yaml'
+#      - name: show switch value
+#        working-directory: /home/runner/work/switch/switch/lab06/.github/workflows/
+#        run: |
+#          yq eval '.jobs' release-workflow.yaml
+#      - name: edit snocko-gold-trading value
+#        working-directory: amornc/snocko-gold-trading/blob/main/.github/workflows/.circleci
+#        run: |
+#          #sed -i 's/when: false/#when: false/g' config.yml
+#          sed '/Dev_WorkFlow/ a #Next line is the 6th line, not this' sedtest.txt
+#      - name: show switch value
+#        working-directory: amornc/switch/blob/main/.github/workflows/.circleci
+#        run: |
+#          yq eval '.workflows.release' config.yml
+#      - name: Commit & Push changes
+#        run: |
+#          cd amornc/switch/blob/main/.github/workflows
+#          git config --global user.email 'DevOps'
+#          git config --global user.name  'devops@zeabix.com'
+#          git add .
+#          git commit -m "Enable CircleCI workflows"
+#          git push https://${{ secrets.CD_PAT }}@github.com/amornc/switch.git
