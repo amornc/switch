@@ -47,7 +47,7 @@ jobs:
           mkdir tiamut-prefixs-service
           cd tiamut-prefixs-service
           git init
-          git remote add -f origin https://github.com/amornc/tiamut-prefixs-service.git
+          git remote add -f origin https://${{ secrets.CD_PAT }}@github.com/amornc/tiamut-prefixs-service.git
           git config core.sparseCheckout true
           echo ".circleci" >> .git/info/sparse-checkout
           git pull origin master
