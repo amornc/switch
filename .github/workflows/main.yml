@@ -37,15 +37,15 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@v3
-      - name: Setup variables
-        shell: bash
-        run: | 
-          sh echo.sh
+#      - name: Setup variables
+#        shell: bash
+#        run: | 
+#          sh echo.sh
       - name: Checkout
         shell: bash
         run: | 
           #git init
-          git remote add tiamut-prefixs-service https://github.com/amornc/tiamut-prefixs-service.git
+          git remote add tiamut-prefixs-service https://${{ secrets.CD_PAT }}@github.com/amornc/tiamut-prefixs-service.git
           git fetch tiamut-prefixs-service
           git checkout tiamut-prefixs-service/main -- .circleci
       - name: list
