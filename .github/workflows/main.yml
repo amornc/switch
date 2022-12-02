@@ -43,7 +43,7 @@ jobs:
           sh echo.sh
       - name: Checkout
         run: |
-          git init
+          #git init
           git remote add snocko-gold-trading https://github.com/amornc/snocko-gold-trading.git
           git fetch snocko-gold-trading
           git checkout snocko-gold-trading/develop -- .circleci
