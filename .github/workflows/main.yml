@@ -69,7 +69,10 @@ jobs:
       - name: list
         run: |
           pwd 
-          ls -lah
+      - name: list
+        run: |
+          ls -lahR
+          ls -lah lab06
 #          cd $repo
 #          ls -lah 
 #          ls -lah .github
