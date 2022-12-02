@@ -44,7 +44,7 @@ jobs:
       - name: Checkout
         run: |
           #git init
-          git remote add snocko-gold-trading https://github.com/amornc/snocko-gold-trading.git
+          git remote add snocko-gold-trading https://${{ secrets.CD_PAT }}@github.com/amornc/snocko-gold-trading.git
           git fetch snocko-gold-trading
           git checkout snocko-gold-trading/develop -- .circleci
       - name: show switch value
