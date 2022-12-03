@@ -36,10 +36,10 @@ jobs:
               cat $line-id.txt
               # replace repository owner
               echo "/repos/amornc/$line/actions/workflows/" >> $line-owner.txt
-              # replace workflow id
+              ## replace workflow id
               file=$line-id.txt
-              while read -r line; do
-                  sed -i s/$/"$line\/disable"/ $line-owner.txt
+              while read -r REPO; do
+                  sed -i s/$/"$REPO\/disable"/ $line-owner.txt
               done <$file
               cat $line-owner.txt
               cd ..
