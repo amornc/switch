@@ -51,9 +51,9 @@ jobs:
           #find . -name '*.yaml' >> workflows.txt
           #cat owner-repo.txt
           file="repo.txt"
-          while read -r REPO; do
+          while read -r line; do
                   cat $line-owner.txt
-              done <$file
+          done <$file
 #      - name: get workflows id
 #        shell: bash
 #        env:
