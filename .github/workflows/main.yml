@@ -55,7 +55,7 @@ jobs:
           while read -r line; do
               cd $line
               cat $line-WorkflowPath.txt
-               cd..
+              cd ..
           done <$file
 #      - name: get workflows id
 #        shell: bash
