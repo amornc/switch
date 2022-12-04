@@ -32,14 +32,14 @@ jobs:
               # get workflows id 
               gh api \
               -H "Accept: application/vnd.github+json" \
-              /repos/amornc/$line/actions/workflows | jq '.workflows | .[].id' >> $line-id.txt
+              /repos/amornc/$line/actions/workflows | jq '.workflows | .[].id' >> $line-WorkflowId.txt
               cat $line-id.txt
               # replace repository owner
-              echo "/repos/amornc/$line/actions/workflows/" >> $line-owner.txt
+              echo "/repos/amornc/$line/actions/workflows/" >> $line-WorkflowPath.txt
               ## replace workflow id
               file=$line-id.txt
               while read -r REPO; do
-                  sed -i s/$/"$REPO\/disable"/ $line-owner.txt
+                  sed -i s/$/"$REPO\/disable"/ $line-WorkflowPath.txt
               done <$file
               cat $line-owner.txt
               cd ..
@@ -47,15 +47,16 @@ jobs:
       - name: list
         shell: bash
         run: |
-          ls -lahR -I ".git"
+          #ls -lahR -I ".git"
           #pwd
           #find . -name '*.yaml' >> workflows.txt
           #cat owner-repo.txt
-          #file="repo.txt"
-          #while read -r line; do
-          #    cd $line
-          #    cat $line-owner.txt
-          #done <$file
+          file="repo.txt"
+          while read -r line; do
+              cd $line
+              cat $line-WorkflowPath.txt
+               cd..
+          done <$file
 #      - name: get workflows id
 #        shell: bash
 #        env:
