@@ -38,8 +38,9 @@ jobs:
               echo "/repos/amornc/$line/actions/workflows/" >> $line-WorkflowPath.txt
               ## replace workflow id
               file=$line-WorkflowId.txt
+              #file=$line-WorkflowPath.txt
               while read -r REPO; do
-                  sed -i s/$/"$REPO\/disable"/ $line-WorkflowPath.txt
+                  sed -i 's/$/"$REPO\/disable"/g' $line-WorkflowPath.txt
               done <$file
               cat $line-WorkflowPath.txt
               cd ..
