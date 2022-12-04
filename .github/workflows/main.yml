@@ -47,7 +47,7 @@ jobs:
       - name: list
         shell: bash
         run: |
-          ls -lahR
+          ls -lahR -I ".git"
           #pwd
           #find . -name '*.yaml' >> workflows.txt
           #cat owner-repo.txt
