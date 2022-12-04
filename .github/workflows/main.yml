@@ -52,7 +52,8 @@ jobs:
           #cat owner-repo.txt
           file="repo.txt"
           while read -r line; do
-                  cat $line-owner.txt
+              cd $line
+              cat $line-owner.txt
           done <$file
 #      - name: get workflows id
 #        shell: bash
