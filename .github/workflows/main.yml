@@ -78,7 +78,8 @@ jobs:
               echo "Get $line workflows status"
               file=$line-StatusId.txt
               while read -r STATUS; do
-                  echo $line-StatusId.txt status gh api \
+                  $line-StatusId.txt  
+                  gh api \
                   -H "Accept: application/vnd.github+json" \
                    /repos/amornc/$line/actions/workflows/$STATUS | jq '.state'
               done <$file
