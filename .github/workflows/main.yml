@@ -49,7 +49,7 @@ jobs:
               echo "echo file $line-WorkflowId after insert string"
               cat $line-WorkflowId.txt
               echo "################################################################"
-              echo "Disable github workflows"
+              echo "Disabling $line workflows"
               file=$line-WorkflowId.txt
               while read -r ID; do
                   gh api \
@@ -58,58 +58,46 @@ jobs:
                    $ID
               done <$file
               echo "################################################################"
-              #echo "echo Workflow Status"
-              #echo "export getstatus=$(gh api \
-              #-H "Accept: application/vnd.github+json" \
-              #/repos/amornc/$line/actions/workflows | jq '.workflows | .[].id')"
-              #gh api \
-              # --method PUT \
-              # -H "Accept: application/vnd.github+json" \
-              # /repos/amornc/$line/actions/workflows/$getstatus
-              #echo "################################################################"
+              echo "Disabled $line workflows"
+              echo "################################################################"
+              echo "echo Workflow Status"
+              echo "export getstatus=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              /repos/amornc/$line/actions/workflows | jq '.workflows | .[].id')"
+              gh api \
+                  -H "Accept: application/vnd.github+json" \
+               /repos/amornc/$line/actions/workflows/$getstatus
+              echo "################################################################"
               cd .. 
           done <$file
-#      - name: list
+#      - name: Get Github actions workflows status
 #        shell: bash
-#        run: |
-#          #ls -lahR -I ".git"
-#          #pwd
-#          #find . -name '*.yaml' >> workflows.txt
-#          #cat owner-repo.txt
-#          file="repo.txt"
-#          while read -r line; do
-#              cd $line
-#              cat $line-WorkflowPath.txt
-#              cd ..
-#          done <$file
-#      - name: get workflows id
-#        shell: bash
+#        continue-on-error: true
 #        env:
 #         GH_TOKEN: ${{ secrets.CD_PAT }}
 #        run: |
 #          file="repo.txt"
 #          while read -r line; do
-#              echo "$line"
+#              echo "Processing repository $line"
+#              cd $line
+#              echo "echo Get workflows id"
 #              gh api \
 #              -H "Accept: application/vnd.github+json" \
-#              /repos/amornc/$line/actions/workflows | jq '.workflows | .[].id' >> workflows-id.txt
-#          done <$file 
-#      - name: Upload workflows-id.txt
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: workflows-id.txt
-#          path: ./workflows-id.txt
-#          if-no-files-found: error
-#      - name: disable github workflows
-#        shell: bash
-#        env:
-#         GH_TOKEN: ${{ secrets.CD_PAT }}
-#        run: |
-#          file="repo.txt"
-#          while read -r line; do
-#              echo "$line"
-#              gh api \
-#               --method PUT \
-#               -H "Accept: application/vnd.github+json" \
-#               /repos/amornc/$line/actions/workflows/33309412/disable
-#          done <$file 
+#              /repos/amornc/$line/actions/workflows | jq '.workflows | .[].id' >> $line-WorkflowId.txt
+#              echo "################################################################"
+#              echo "/repos/amornc/$line/actions/workflows/" >> $line-WorkflowPath.txt
+#              echo "echo file $line-WorkflowPath.txt"
+#              cat $line-WorkflowPath.txt
+#              echo "################################################################"
+#              ## replace workflow id
+#              sed -ie 's/^/\/repos\/amornc\/'$line'\/actions\/workflows\//' $line-WorkflowId.txt
+#              echo "Disabling $line workflows"
+#              file=$line-WorkflowId.txt
+#              while read -r ID; do
+#                  gh api \
+#                   -H "Accept: application/vnd.github+json" \
+#                   $ID
+#              done <$file
+#              cd .. 
+#          done <$file
+#
