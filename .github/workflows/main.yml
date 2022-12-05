@@ -42,25 +42,25 @@ jobs:
               while read -r REPO; do
                   #sed -i s/$/"$REPO\/disable"/ $line-WorkflowPath.txt
                   #sed -i s/^\/repos\/amornc/$REPO/actions/workflows\// $line-WorkflowId.txt
-                  sed -e "s/^\%repos\%amornc\%$REPO\%actions\%workflows\%/" $line-WorkflowId.txt
+                  #sed -e "s%^\%repos\%amornc\%$REPO\%actions\%workflows\%%" $line-WorkflowId.txt
                   sed -i s/$/\/disable/ $line-WorkflowId.txt
               done <$file
-              cat $line-WorkflowPath.txt
+              cat $line-WorkflowId.txt
               cd ..
           done <$file
-      - name: list
-        shell: bash
-        run: |
-          #ls -lahR -I ".git"
-          #pwd
-          #find . -name '*.yaml' >> workflows.txt
-          #cat owner-repo.txt
-          file="repo.txt"
-          while read -r line; do
-              cd $line
-              cat $line-WorkflowPath.txt
-              cd ..
-          done <$file
+#      - name: list
+#        shell: bash
+#        run: |
+#          #ls -lahR -I ".git"
+#          #pwd
+#          #find . -name '*.yaml' >> workflows.txt
+#          #cat owner-repo.txt
+#          file="repo.txt"
+#          while read -r line; do
+#              cd $line
+#              cat $line-WorkflowPath.txt
+#              cd ..
+#          done <$file
 #      - name: get workflows id
 #        shell: bash
 #        env:
