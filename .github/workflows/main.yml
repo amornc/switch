@@ -16,6 +16,7 @@ jobs:
           cd enable-circleci
       - name: Disable Github actions workflows
         shell: bash
+        continue-on-error: true
         env:
          GH_TOKEN: ${{ secrets.CD_PAT }}
         run: |
@@ -54,9 +55,17 @@ jobs:
                    --method PUT \
                    -H "Accept: application/vnd.github+json" \
                    $ID
-               done <$file
-               echo "################################################################"
-              cd ..
+              done <$file
+              echo "################################################################"
+              echo "echo Workflow Status"
+              echo "export getstatus=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              /repos/amornc/$line/actions/workflows | jq '.workflows | .[].id')"
+              gh api \
+               -H "Accept: application/vnd.github+json" \
+               /repos/amornc/$line/actions/workflows/$getstatus
+              echo "################################################################"
+              cd .. 
           done <$file
 #      - name: list
 #        shell: bash
