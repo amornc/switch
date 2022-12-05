@@ -42,7 +42,7 @@ jobs:
               while read -r REPO; do
                   #sed -i s/$/"$REPO\/disable"/ $line-WorkflowPath.txt
                   #sed -i s/^\/repos\/amornc/$REPO/actions/workflows\// $line-WorkflowId.txt
-                  sed -i "/^/\/repos\/amornc\/$REPO\/actions\/workflows\//" $line-WorkflowId.txt
+                  sed -ie "/^/\/repos\/amornc\/$REPO\/actions\/workflows\//" $line-WorkflowId.txt
               done <$file
               cat $line-WorkflowPath.txt
               cd ..
