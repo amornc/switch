@@ -38,7 +38,7 @@ jobs:
               echo "/repos/amornc/$line/actions/workflows/" >> $line-WorkflowPath.txt
               ## replace workflow id
               sed -e 's/$/\/disable/' $line-WorkflowId.txt
-              cat $line-WorkflowId.txt
+              #cat $line-WorkflowId.txt
               cd ..
           done <$file
 #      - name: list
