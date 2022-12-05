@@ -33,13 +33,16 @@ jobs:
               gh api \
               -H "Accept: application/vnd.github+json" \
               /repos/amornc/$line/actions/workflows | jq '.workflows | .[].id' >> $line-WorkflowId.txt
+              echo "echo file $line-WorkflowId before insert string"
               #cat $line-WorkflowId.txt
+              echo "################################################################"
               # replace repository owner
               echo "/repos/amornc/$line/actions/workflows/" >> $line-WorkflowPath.txt
               ## replace workflow id
               sed -ie 's/$/\/disable/' $line-WorkflowId.txt
-              echo file $line-WorkflowId after insert string
+              echo "echo file $line-WorkflowId after insert string"
               cat $line-WorkflowId.txt
+              echo "################################################################"
               cd ..
           done <$file
 #      - name: list
