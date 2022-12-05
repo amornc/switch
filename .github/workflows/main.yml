@@ -81,7 +81,7 @@ jobs:
                   gh api \
                   -H "Accept: application/vnd.github+json" \
                    /repos/amornc/$line/actions/workflows/$STATUS | jq '.state' >> $line-State.txt
-                   sed -ie 's/$/'$STATUS'/' $line-State.txt
+                   sed -ie 's/^/'$STATUS'/' $line-State.txt
               done <$file
               cat $line-State.txt
               echo "################################################################"
