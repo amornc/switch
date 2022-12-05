@@ -44,8 +44,8 @@ jobs:
               echo "################################################################"
               ## replace workflow id
               sed -ie 's/^/\/repos\/amornc\/'$line'\/actions\/workflows\//' $line-WorkflowId.txt
-              #sed -ie 's/$/\/disable/' $line-WorkflowId.txt
-              sed -ie 's/$/\/enable/' $line-WorkflowId.txt
+              sed -ie 's/$/\/disable/' $line-WorkflowId.txt
+              #sed -ie 's/$/\/enable/' $line-WorkflowId.txt
               echo "echo file $line-WorkflowId after insert string"
               cat $line-WorkflowId.txt
               echo "################################################################"
@@ -58,14 +58,15 @@ jobs:
                    $ID
               done <$file
               echo "################################################################"
-              echo "echo Workflow Status"
-              echo "export getstatus=$(gh api \
-              -H "Accept: application/vnd.github+json" \
-              /repos/amornc/$line/actions/workflows | jq '.workflows | .[].id')"
-              gh api \
-               -H "Accept: application/vnd.github+json" \
-               /repos/amornc/$line/actions/workflows/$getstatus
-              echo "################################################################"
+              #echo "echo Workflow Status"
+              #echo "export getstatus=$(gh api \
+              #-H "Accept: application/vnd.github+json" \
+              #/repos/amornc/$line/actions/workflows | jq '.workflows | .[].id')"
+              #gh api \
+              # --method PUT \
+              # -H "Accept: application/vnd.github+json" \
+              # /repos/amornc/$line/actions/workflows/$getstatus
+              #echo "################################################################"
               cd .. 
           done <$file
 #      - name: list
