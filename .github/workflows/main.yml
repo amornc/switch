@@ -80,13 +80,13 @@ jobs:
               while read -r STATUS; do
                   echo ID=$(gh api \
                   -H "Accept: application/vnd.github+json" \
-                   /repos/amornc/$line/actions/workflows/$STATUS | jq '.id) 
+                   /repos/amornc/$line/actions/workflows/$STATUS | jq '.id') 
                   echo NAME=$(gh api \
                   -H "Accept: application/vnd.github+json" \
-                   /repos/amornc/$line/actions/workflows/$STATUS | jq '.name)
+                   /repos/amornc/$line/actions/workflows/$STATUS | jq '.name')
                   echo STATUS=$(gh api \
                   -H "Accept: application/vnd.github+json" \
-                   /repos/amornc/$line/actions/workflows/$STATUS | jq '.state)
+                   /repos/amornc/$line/actions/workflows/$STATUS | jq '.state')
                    echo "#################################################################"
               done <$file
               cd .. 
