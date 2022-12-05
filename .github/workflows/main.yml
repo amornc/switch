@@ -14,9 +14,9 @@ jobs:
         run: |
           mkdir enable-circleci
           cd enable-circleci
-      - name: Prepare github actions workflow information
+      - name: Disable Github actions workflows
         shell: bash
-#        continue-on-error: true
+        continue-on-error: true
         env:
          GH_TOKEN: ${{ secrets.CD_PAT }}
         run: |
@@ -49,17 +49,17 @@ jobs:
               echo "echo file $line-WorkflowId after insert string"
               cat $line-WorkflowId.txt
               echo "################################################################"
-              echo "Disabling $line workflows"
-              file=$line-WorkflowId.txt
-              while read -r ID; do
-                  gh api \
-                   --method PUT \
-                   -H "Accept: application/vnd.github+json" \
-                   $ID
-              done <$file
-              echo "################################################################"
-              echo "Disabled $line workflows"
-              echo "################################################################"
+              #echo "Disabling $line workflows"
+              #file=$line-WorkflowId.txt
+              #while read -r ID; do
+              #    gh api \
+              #     --method PUT \
+              #     -H "Accept: application/vnd.github+json" \
+              #     $ID
+              #done <$file
+              #echo "################################################################"
+              #echo "Disabled $line workflows"
+              #echo "################################################################"
               cd .. 
           done <$file
 
@@ -78,7 +78,7 @@ jobs:
               echo "Get $line workflows status"
               file=$line-StatusId.txt
               while read -r STATUS; do
-                  gh api \
+                  echo $line-StatusId.txt status gh api \
                   -H "Accept: application/vnd.github+json" \
                    /repos/amornc/$line/actions/workflows/$STATUS | jq '.state'
               done <$file
