@@ -87,7 +87,8 @@ jobs:
                   echo STATUS=$(gh api \
                   -H "Accept: application/vnd.github+json" \
                    /repos/amornc/$line/actions/workflows/$STATUS | jq '.state')
-                   echo "#################################################################"
+                   echo "-----------------------------------------------------"
               done <$file
+              echo "#################################################################"
               cd .. 
           done <$file
