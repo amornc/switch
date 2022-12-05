@@ -33,7 +33,7 @@ jobs:
               gh api \
               -H "Accept: application/vnd.github+json" \
               /repos/amornc/$line/actions/workflows | jq '.workflows | .[].id' >> $line-WorkflowId.txt
-              cat $line-WorkflowId.txt
+              #cat $line-WorkflowId.txt
               # replace repository owner
               echo "/repos/amornc/$line/actions/workflows/" >> $line-WorkflowPath.txt
               ## replace workflow id
