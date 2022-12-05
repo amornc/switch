@@ -83,7 +83,7 @@ jobs:
                    /repos/amornc/$line/actions/workflows/$STATUS | jq '.state' >> $line-State.txt
                    sed -ie 's/$/'$STATUS'/' $line-State.txt
               done <$file
-              cat $line-StatusId.txt
+              cat $line-State.txt
               echo "################################################################"
               cd .. 
           done <$file
