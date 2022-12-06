@@ -102,7 +102,7 @@ jobs:
         run: |
           mkdir disable-circleci
           cd disable-circleci
-      - name: Enable Github actions workflows
+      - name: Disable Github actions workflows
         shell: bash
         continue-on-error: true
         env:
