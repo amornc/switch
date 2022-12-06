@@ -122,7 +122,7 @@ jobs:
               echo "################################################################"
               echo "Edit values"
               sed -i '/zeabix/a \
-                  when: false' ./circleci/config.yml
+                  when: false' ./.circleci/config.yml
               cat ./.circleci/config.yml
               echo "################################################################"
               echo "Push code to github"
