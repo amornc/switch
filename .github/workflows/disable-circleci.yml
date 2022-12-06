@@ -133,6 +133,7 @@ jobs:
               #git push https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
               git checkout $line/main
               git branch
+              git push
               echo "################################################################"
           done <$file
 
