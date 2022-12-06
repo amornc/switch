@@ -118,20 +118,19 @@ jobs:
               git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
               git fetch $line
               git checkout $line/main -- .circleci # Change folder this line
-              ls -lahR -I .git
+              #ls -lahR -I .git
               echo "################################################################"
               echo "Edit values"
               sed -i '/zeabix/a \
               when: false' ./.circleci/config.yml
-              cat ./.circleci/config.yml
+              cat ./.circleci/config.yml |grep when
               echo "################################################################"
               echo "Push code to github"
               git config --global user.email 'DevOps'
               git config --global user.name  'devops@zeabix.com'
               git add .
               git commit -m "Disable CircleCI workflows"
-              git checkout $line/main
-              git branch
+              git checkout main
               git push https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git HEAD:main
               echo "################################################################"
           done <$file
