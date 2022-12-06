@@ -40,17 +40,17 @@ jobs:
 #            - run: npm install
 #            - run: npm build
 #            - run: npm publish
-            - run: echo $$DISABLE_CIRCLECI
+            - run: echo $DISABLE_CIRCLECI
 
 workflows:
   release:
     # Do not edit this line. This configuration for enable or disable circleci. create by zeabix
-    when: { $CIRCLE_BRANCH == $$DISABLE_CIRCLECI }
+    when: { $CIRCLE_BRANCH == $DISABLE_CIRCLECI }
 #      equal: [ "yes" , << pipeline.parameters.disable-circleci >>]
     ############################################################################################
     jobs:
-      - release: 
+      - release
 #          when: 
 #            equal: [ "no" , << parameters.disable-circleci >>]
-          context:
-          - DisableEnable
+#          context:
+#          - DisableEnable
