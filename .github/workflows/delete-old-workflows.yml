@@ -16,6 +16,7 @@ jobs:
           gh api \
           -H "Accept: application/vnd.github+json" \
           /repos/amornc/switch/actions/runs | jq '.workflow_runs | .[].id' >> runs-id.txt
+          cat runs-id.txt
           echo "################################################################"
           echo "Delete workflows runs id"
           file="runs-id.txt"
