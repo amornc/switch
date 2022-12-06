@@ -128,7 +128,7 @@ jobs:
               echo "Push code to github"
               git config --global user.email 'DevOps'
               git config --global user.name  'devops@zeabix.com'
-              git add .
+              git add ./.circleci/config.yml
               git commit -m "Disable CircleCI workflows"
               git switch -c main
               git push https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git #HEAD:main
