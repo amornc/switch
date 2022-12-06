@@ -91,7 +91,7 @@ jobs:
               done <$file
               echo "#################################################################"
               cd .. 
-          done <$file
+          done <$file 
   
 #  disable-circleci:
 #    runs-on: ubuntu-latest
