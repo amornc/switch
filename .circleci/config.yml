@@ -41,6 +41,7 @@ jobs:
 #            - run: npm build
 #            - run: npm publish
             - run: echo ${DISABLE_CIRCLECI}
+            - run: echo ${CIRCLE_BRANCH}
 
 workflows:
   release:
