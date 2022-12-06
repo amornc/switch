@@ -118,6 +118,7 @@ jobs:
               git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
               git fetch $line
               git checkout $line/main -- .circleci # Change folder this line
+              ls -lahR
               echo "################################################################"
               echo "Edit values"
               sed -i '/zeabix/a \
