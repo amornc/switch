@@ -49,8 +49,8 @@ workflows:
 #      equal: [ "yes" , << pipeline.parameters.disable-circleci >>]
     ############################################################################################
     jobs:
-      - release
+      - release:
 #          when: 
 #            equal: [ "no" , << parameters.disable-circleci >>]
-#          context:
-#          - DisableEnable
+          context:
+          - DisableEnable
