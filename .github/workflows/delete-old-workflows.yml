@@ -33,6 +33,8 @@ jobs:
 #          done <$file
       - name: delete
         shell: bash
+        env:
+         GH_TOKEN: ${{ secrets.CD_PAT }}
         run: |
           user=amornc repo=switch; gh api repos/$user/$repo/actions/runs \
           --paginate -q '.workflow_runs[] | select(.head_branch != "master") | "\(.id)"' | \
