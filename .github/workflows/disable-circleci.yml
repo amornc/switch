@@ -117,7 +117,7 @@ jobs:
               git init
               git checkout -b main
               git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
-              git pull $line
+              git pull $line/main
               git checkout $line/main -- .circleci # Change folder this line 
               ls -lah
               echo "################################################################"
