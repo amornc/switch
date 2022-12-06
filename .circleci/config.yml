@@ -5,7 +5,7 @@ version: 2.1
 # for a specific event.
 ##
 
-#parameters:
+parameters:
 #  GHA_Event:
 #    type: string
 #    default: ""
@@ -21,9 +21,9 @@ version: 2.1
 #  GHA_Tag:
 #    type: string
 #    default: ""
-#  disable-circleci:
-#    type: env_var_name
-#    default: DISABLE_CIRCLECI
+  disable-circleci:
+    type: env_var_name
+    default: DISABLE_CIRCLECI
 
 jobs:
   release:
@@ -33,9 +33,10 @@ jobs:
     docker:
       - image: cimg/node:lts
     steps:
-#      - when:
-#          condition: [ ${DISABLE_CIRCLECI} == << pipeline.git.branch >> ]
-#          steps:
+      - when:
+          condition: 
+             equal: [ main, "${<< parameters.disable-circleci >>}" ]
+          steps:
 #            - run: npm install
 #            - run: npm build
 #            - run: npm publish
