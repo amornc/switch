@@ -33,9 +33,9 @@ jobs:
     docker:
       - image: cimg/node:lts
     steps:
-      - when:
-          condition: ${DISABLE_CIRCLECI} == << pipeline.git.branch >>
-          steps:
+#      - when:
+#          condition: [ ${DISABLE_CIRCLECI} == << pipeline.git.branch >> ]
+#          steps:
 #            - run: npm install
 #            - run: npm build
 #            - run: npm publish
@@ -45,10 +45,10 @@ jobs:
 
 workflows:
   release:
-    # Do not edit this line. This configuration for enable or disable circleci. create by zeabix
-    
-#      equal: [ "yes" , << pipeline.parameters.disable-circleci >>]
-    ############################################################################################
+    when:
+      or:
+        - equal: [main, $DISABLE_CIRCLECI]
+
     jobs:
       - release:
 #          when: 
