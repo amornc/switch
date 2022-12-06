@@ -130,8 +130,7 @@ jobs:
               git config --global user.name  'devops@zeabix.com'
               git add ./.circleci/config.yml
               git commit -m "Disable CircleCI workflows"
-              git switch main
-              git push https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git #HEAD:main
+              git push https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git main
               echo "################################################################"
           done <$file
 
