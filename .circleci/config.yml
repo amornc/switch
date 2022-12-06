@@ -26,6 +26,7 @@ parameters:
 #    default: DISABLE_CIRCLECI
   disable-circleci:
     type: string
+    default: 
 
 jobs:
   release:
