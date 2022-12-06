@@ -2,10 +2,11 @@ on:
   push:
     branches:
       - "main"
+  workflow_dispatch: #Please remove this line
   
 jobs:
 
-  enable-circleci:
+  disable-github-actions:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -45,21 +46,20 @@ jobs:
               ## replace workflow id
               sed -ie 's/^/\/repos\/amornc\/'$line'\/actions\/workflows\//' $line-WorkflowId.txt
               sed -ie 's/$/\/disable/' $line-WorkflowId.txt 
-              #sed -ie 's/$/\/enable/' $line-WorkflowId.txt
               echo "echo file $line-WorkflowId after insert string"
               cat $line-WorkflowId.txt
               echo "################################################################"
-              #echo "Disabling $line workflows"
-              #file=$line-WorkflowId.txt
-              #while read -r ID; do
-              #    gh api \
-              #     --method PUT \
-              #     -H "Accept: application/vnd.github+json" \
-              #     $ID
-              #done <$file
-              #echo "################################################################"
-              #echo "Disabled $line workflows"
-              #echo "################################################################"
+              echo "Disabling $line workflows"
+              file=$line-WorkflowId.txt
+              while read -r ID; do
+                  gh api \
+                   --method PUT \
+                   -H "Accept: application/vnd.github+json" \
+                   $ID
+              done <$file
+              echo "################################################################"
+              echo "Disabled $line workflows"
+              echo "################################################################"
               cd .. 
           done <$file
 
@@ -87,7 +87,7 @@ jobs:
                   echo STATUS=$(gh api \
                   -H "Accept: application/vnd.github+json" \
                    /repos/amornc/$line/actions/workflows/$STATUS | jq '.state')
-                   echo "-----------------------------------------------------"
+                   echo "----------------------------------------------------------------"
               done <$file
               echo "#################################################################"
               cd .. 
