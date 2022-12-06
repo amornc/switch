@@ -132,7 +132,7 @@ jobs:
               git commit -m "Disable CircleCI workflows"
               git checkout $line/main
               git branch
-              git push https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
+              git push https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git HEAD:main
               echo "################################################################"
           done <$file
 
