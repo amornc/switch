@@ -42,7 +42,7 @@ workflows:
       equal: [ "no" , {{ .Environment.DISABLE_CIRCLECI }}]
     ############################################################################################
     jobs:
-      - release
+      - release 
 #          when: 
 #            equal: [ "no" , << parameters.disable-circleci >>]
 #          context:
