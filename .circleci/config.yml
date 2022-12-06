@@ -28,7 +28,8 @@ parameters:
 jobs:
   release:
     when: 
-      equal: [ "no" , << parameters.disable-circleci >>]
+      condition:
+      - equal: [ "no" , << parameters.disable-circleci >>]
     docker:
       - image: cimg/node:lts
     steps:
