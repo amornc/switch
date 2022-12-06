@@ -27,6 +27,7 @@ jobs:
               echo "Delete old workflows runs"
               gh api \
               --method DELETE \
+              -- limit 200 \
               -H "Accept: application/vnd.github+json" \
               /repos/amornc/switch/actions/runs/$line
           done <$file
