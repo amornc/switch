@@ -5,7 +5,7 @@ version: 2.1
 # for a specific event.
 ##
 
-parameters:
+#parameters:
 #  GHA_Event:
 #    type: string
 #    default: ""
@@ -21,9 +21,9 @@ parameters:
 #  GHA_Tag:
 #    type: string
 #    default: ""
-  disable-circleci:
-    type: env_var_name
-    default: DISABLE_CIRCLECI
+#  disable-circleci:
+#    type: env_var_name
+#    default: DISABLE_CIRCLECI
 
 jobs:
   release:
@@ -38,12 +38,12 @@ jobs:
 workflows:
   release:
     # Do not edit this line. This configuration for enable or disable circleci. create by zeabix
-#    when: 
-#      equal: [ "no" , << parameters.disable-circleci >>]
+    when: 
+      equal: [ "no" , {{ .Environment.DISABLE_CIRCLECI }}]
     ############################################################################################
     jobs:
-      - release:
-          when: 
-            equal: [ "no" , << parameters.disable-circleci >>]
+      - release
+#          when: 
+#            equal: [ "no" , << parameters.disable-circleci >>]
 #          context:
 #          - DisableEnable
