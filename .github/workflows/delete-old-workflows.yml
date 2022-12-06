@@ -1,56 +1,37 @@
 on:
-  workflow_dispatch:
-    inputs:
-      days:
-        description: 'Number of days.'
-        required: true
-        default: 30
-      minimum_runs:
-        description: 'The minimum runs to keep for each workflow.'
-        required: true
-        default: 6
-      delete_workflow_pattern:
-        description: 'The name or filename of the workflow. if not set then it will target all workflows.'
-        required: false
-      delete_workflow_by_state_pattern:
-        description: 'Remove workflow by state: active, deleted, disabled_fork, disabled_inactivity, disabled_manually'
-        required: true
-        default: "All"
-        type: choice
-        options:
-          - "All"
-          - active
-          - deleted
-          - disabled_inactivity
-          - disabled_manually
-      delete_run_by_conclusion_pattern:
-        description: 'Remove workflow by conclusion: action_required, cancelled, failure, skipped, success'
-        required: true
-        default: "All"
-        type: choice
-        options:
-          - "All"
-          - action_required
-          - cancelled
-          - failure
-          - skipped
-          - success
-      dry_run:
-        description: 'Only log actions, do not perform any delete operations.'
-        required: false
-
+#  push:
+#    branches:
+#      - "main"
+  workflow_dispatch: #Please remove this line
+      
 jobs:
-  del_runs:
+
+  delete-old-workflow-runs:
     runs-on: ubuntu-latest
     steps:
-      - name: Delete workflow runs
-        uses: Mattraks/delete-workflow-runs@v2
-        with:
-          token: ${{ secrets.CD_PAT }}
-          repository: ${{ github.repository }}
-          retain_days: ${{ github.event.inputs.days }}
-          keep_minimum_runs: ${{ github.event.inputs.minimum_runs }}
-          delete_workflow_pattern: ${{ github.event.inputs.delete_workflow_pattern }}
-          delete_workflow_by_state_pattern: ${{ github.event.inputs.delete_workflow_by_state_pattern }}
-          delete_run_by_conclusion_pattern: ${{ github.event.inputs.delete_run_by_conclusion_pattern }}
-          dry_run: ${{ github.event.inputs.dry_run }}
+#      - name: Check out
+#        uses: actions/checkout@v3
+      - name: Create root directory
+        run: |
+          mkdir disable-circleci
+          cd disable-circleci
+      - name: Enable Github actions workflows
+        shell: bash
+        continue-on-error: true
+        env:
+         GH_TOKEN: ${{ secrets.CD_PAT }}
+        run: |
+          echo "Get workflows runs id"
+          gh api \
+          -H "Accept: application/vnd.github+json" \
+          /repos/amornc/switch/actions/runs >> runs-id.txt
+          file="runs-id.txt"
+          while read -r line; do
+              echo "Delete old workflows runs"
+              gh api \
+              --method DELETE \
+              -H "Accept: application/vnd.github+json" \
+              /repos/amornc/switch/actions/runs/$line
+              echo "################################################################"
+          done <$file
+
