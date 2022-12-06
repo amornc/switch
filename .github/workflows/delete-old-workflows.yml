@@ -6,29 +6,35 @@ jobs:
   delete-old-workflow-runs:
     runs-on: ubuntu-latest
     steps:
-      - name: get workflow runs id
+#      - name: get workflow runs id
+#        shell: bash
+#        continue-on-error: true
+#        env:
+#         GH_TOKEN: ${{ secrets.CD_PAT }}
+#        run: |
+#          gh api \
+#          -H "Accept: application/vnd.github+json" \
+#          /repos/amornc/switch/actions/runs | jq '.workflow_runs | .[].id' >> runs-id.txt
+#          cat runs-id.txt
+#      - name: delete-old-workflow-runs
+#        shell: bash
+#        continue-on-error: true
+#        env:
+#         GH_TOKEN: ${{ secrets.CD_PAT }}
+#        run: |
+#          file="runs-id.txt"
+#          while read -r line; do
+#              echo "Delete old workflows runs"
+#              gh api \
+#              --method DELETE \
+#              -- limit 200 \
+#              -H "Accept: application/vnd.github+json" \
+#              /repos/amornc/switch/actions/runs/$line
+#          done <$file
+      - name: delete
         shell: bash
-        continue-on-error: true
-        env:
-         GH_TOKEN: ${{ secrets.CD_PAT }}
         run: |
-          gh api \
-          -H "Accept: application/vnd.github+json" \
-          /repos/amornc/switch/actions/runs | jq '.workflow_runs | .[].id' >> runs-id.txt
-          cat runs-id.txt
-      - name: delete-old-workflow-runs
-        shell: bash
-        continue-on-error: true
-        env:
-         GH_TOKEN: ${{ secrets.CD_PAT }}
-        run: |
-          file="runs-id.txt"
-          while read -r line; do
-              echo "Delete old workflows runs"
-              gh api \
-              --method DELETE \
-              -- limit 200 \
-              -H "Accept: application/vnd.github+json" \
-              /repos/amornc/switch/actions/runs/$line
-          done <$file
+          user=amornc repo=switch; gh api repos/$user/$repo/actions/runs \
+          --paginate -q '.workflow_runs[] | select(.head_branch != "master") | "\(.id)"' | \
+          xargs -n1 -I % gh api repos/$user/$repo/actions/runs/% -X DELETE
 
