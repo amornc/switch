@@ -38,10 +38,12 @@ jobs:
 workflows:
   release:
     # Do not edit this line. This configuration for enable or disable circleci. create by zeabix
-    when: 
-      equal: [ "no" , << parameters.disable-circleci >>]
+#    when: 
+#      equal: [ "no" , << parameters.disable-circleci >>]
     ############################################################################################
     jobs:
       - release:
-          context:
-            - DisableEnable
+          when: 
+            equal: [ "no" , << parameters.disable-circleci >>]
+#          context:
+#          - DisableEnable
