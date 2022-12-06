@@ -115,12 +115,11 @@ jobs:
               cd $line
               # initinal git repository
               git init
-              git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
-              git fetch $line
-              git checkout $line/main -- .circleci # Change folder this line
-              git branch -a 
               git checkout -b main
-              #ls -lahR -I .git
+              git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
+              git pull $line
+              git checkout $line/main -- .circleci # Change folder this line 
+              ls -lah
               echo "################################################################"
               echo "Edit values"
               sed -i '/zeabix/a \
