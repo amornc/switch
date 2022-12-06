@@ -124,6 +124,13 @@ jobs:
                   when: false' ./circleci/config.yml
               cat ./circleci/config.yml
               echo "################################################################"
+              echo "Push code to github"
+              git config --global user.email 'DevOps'
+              git config --global user.name  'devops@zeabix.com'
+              git add .
+              git commit -m "Disable CircleCI workflows"
+              git push https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
+              echo "################################################################"
           done <$file
 
     
