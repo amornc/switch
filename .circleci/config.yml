@@ -34,10 +34,7 @@ jobs:
       - image: cimg/node:lts
     steps:
       - when:
-          condition:
-            and:
-#              - equal: [ $DISABLE_CIRCLECI, $CIRCLE_BRANCH ]
-              - equal: [ main, $DISABLE_CIRCLECI ]
+          condition: ${DISABLE_CIRCLECI} == << pipeline.git.branch >>
           steps:
 #            - run: npm install
 #            - run: npm build
