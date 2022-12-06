@@ -1,7 +1,4 @@
 on:
-#  push:
-#    branches:
-#      - "main"
   workflow_dispatch: #Please remove this line
       
 jobs:
@@ -9,12 +6,6 @@ jobs:
   delete-old-workflow-runs:
     runs-on: ubuntu-latest
     steps:
-#      - name: Check out
-#        uses: actions/checkout@v3
-      - name: Create root directory
-        run: |
-          mkdir disable-circleci
-          cd disable-circleci
       - name: Enable Github actions workflows
         shell: bash
         continue-on-error: true
@@ -24,7 +15,9 @@ jobs:
           echo "Get workflows runs id"
           gh api \
           -H "Accept: application/vnd.github+json" \
-          /repos/amornc/switch/actions/runs >> runs-id.txt
+          /repos/amornc/switch/actions/runs | jq '.workflow_runs | .[].id' >> runs-id.txt
+          echo "################################################################"
+          echo "Delete workflows runs id"
           file="runs-id.txt"
           while read -r line; do
               echo "Delete old workflows runs"
