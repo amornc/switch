@@ -36,7 +36,8 @@ jobs:
       - when:
           condition:
             and:
-              - equal: [ $DISABLE_CIRCLECI, $CIRCLE_BRANCH ]
+#              - equal: [ $DISABLE_CIRCLECI, $CIRCLE_BRANCH ]
+              - equal: [ main, $DISABLE_CIRCLECI ]
           steps:
 #            - run: npm install
 #            - run: npm build
