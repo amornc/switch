@@ -40,7 +40,7 @@ jobs:
 #            - run: npm install
 #            - run: npm build
 #            - run: npm publish
-            - run: echo $DISABLE_CIRCLECI
+            - run: echo ${DISABLE_CIRCLECI}
 
 workflows:
   release:
