@@ -21,9 +21,9 @@ parameters:
 #  GHA_Tag:
 #    type: string
 #    default: ""
-  disable-circleci:
-    type: env_var_name
-    default: DISABLE_CIRCLECI
+#  disable-circleci:
+#    type: env_var_name
+#    default: DISABLE_CIRCLECI
 
 jobs:
   release:
@@ -33,10 +33,10 @@ jobs:
     docker:
       - image: cimg/node:lts
     steps:
-      - when:
-          condition: 
-             equal: [ main, "${<< parameters.disable-circleci >>}" ]
-          steps:
+ #     - when:
+ #         condition: 
+ #            equal: [ main, "${<< parameters.disable-circleci >>}" ]
+ #         steps:
 #            - run: npm install
 #            - run: npm build
 #            - run: npm publish
