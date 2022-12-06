@@ -13,8 +13,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Create root directory
         run: |
-          mkdir disable-circleci
-          cd disable-circleci
+          mkdir enable-github-actions
+          cd enable-github-actions
       - name: Enable Github actions workflows
         shell: bash
         continue-on-error: true
@@ -92,3 +92,38 @@ jobs:
               echo "#################################################################"
               cd .. 
           done <$file
+  
+  disable-circleci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+      - name: Create root directory
+        run: |
+          mkdir disable-circleci
+          cd disable-circleci
+      - name: Enable Github actions workflows
+        shell: bash
+        continue-on-error: true
+        env:
+         GH_TOKEN: ${{ secrets.CD_PAT }}
+        run: |
+          file="repo.txt"
+          while read -r line; do
+              echo "Processing repository $line"
+              mkdir "$line"
+              cd $line
+              # initinal git repository
+              git init
+              git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
+              git fetch $line
+              git checkout $line/main -- .circleci # Change folder this line
+              echo "################################################################"
+              echo "Edit values"
+              sed '/zeabix/a \
+                  when: false' ./circleci/config.yml
+              cat ./circleci/config.yml
+              echo "################################################################"
+          done <$file
+
+    

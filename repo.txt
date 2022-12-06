@@ -1,7 +1,1 @@
-lab06
-test10
-blog-service
-nocnoc-loadtest
-pttgc-deploy-aks-and-azure-app-service
-pttgc-deploy-azure-app-service
-pttgc-source-code-scanning
+switch
