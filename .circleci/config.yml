@@ -34,9 +34,8 @@ jobs:
 workflows:
   release:
     # Do not edit this line. This configuration for enable or disable circleci. create by zeabix
-    when:
-      and: # All must be true to trigger
-        - not: $disable 
+    when: 
+      equal: [ disable, $DISABLE_CIRCLECI ]
     ############################################################################################
     jobs:
       - release
