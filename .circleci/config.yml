@@ -27,22 +27,26 @@ parameters:
 
 jobs:
   release:
-    when: 
-      condition:
-      - equal: [ "no" , << parameters.disable-circleci >>]
+#    when: 
+#      and:
+#      - equal: [ "yes" , << parameters.disable-circleci >>]
     docker:
       - image: cimg/node:lts
     steps:
-      - run: npm install
-      - run: npm build
-      - run: npm publish
-      - run: echo ${$DISABLE_CIRCLECI}
+      - when: 
+          condition:
+            equal: [ "yes" , << parameters.disable-circleci >>]
+          steps:
+            - run: npm install
+            - run: npm build
+            - run: npm publish
+            - run: echo ${$DISABLE_CIRCLECI}
 
 workflows:
   release:
     # Do not edit this line. This configuration for enable or disable circleci. create by zeabix
-#    when: 
-#      equal: [ "no" , {{ .Environment.DISABLE_CIRCLECI }}]
+    when: 
+      equal: [ "yes" , << parameters.disable-circleci >>]
     ############################################################################################
     jobs:
       - release: 
