@@ -48,7 +48,7 @@ workflows:
   release:
     when:
       or:
-        - equal: ["$CIRCLE_BRANCH" , "$DISABLE_CIRCLECI"]
+        - equal: ["$CIRCLE_BRANCH" , "$DISABLE_CIRCLECI"] 
 
     jobs:
       - release:
