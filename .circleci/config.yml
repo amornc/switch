@@ -5,22 +5,22 @@ version: 2.1
 # for a specific event.
 ##
 
-parameters:
-  GHA_Event:
-    type: string
-    default: ""
-  GHA_Actor:
-    type: string
-    default: ""
-  GHA_Action:
-    type: string
-    default: ""
-  GHA_Meta:
-    type: string
-    default: ""
-  GHA_Tag:
-    type: string
-    default: ""
+#parameters:
+#  GHA_Event:
+#    type: string
+#    default: ""
+#  GHA_Actor:
+#    type: string
+#    default: ""
+#  GHA_Action:
+#    type: string
+#    default: ""
+#  GHA_Meta:
+#    type: string
+#    default: ""
+#  GHA_Tag:
+#    type: string
+#    default: ""
 
 jobs:
   release:
@@ -35,7 +35,7 @@ workflows:
   release:
     # Do not edit this line. This configuration for enable or disable circleci. create by zeabix
     when: 
-      equal: [ disable, $DISABLE_CIRCLECI ]
+      equal: [ disable, $DISABLE_CIRCLECI ] 
     ############################################################################################
     jobs:
       - release
