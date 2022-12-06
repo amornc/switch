@@ -17,7 +17,7 @@ jobs:
           cd enable-github-actions
       - name: Enable Github actions workflows
         shell: bash
-        continue-on-error: true
+#        continue-on-error: true
         env:
          GH_TOKEN: ${{ secrets.CD_PAT }}
         run: |
@@ -104,7 +104,7 @@ jobs:
           cd disable-circleci
       - name: Disable Github actions workflows
         shell: bash
-        continue-on-error: true
+#        continue-on-error: true
         env:
          GH_TOKEN: ${{ secrets.CD_PAT }}
         run: |
