@@ -6,13 +6,13 @@ jobs:
     docker:
       - image: 'cimg/base:stable'
     steps:
-      - run: echo $BRANCH
-      - run: echo $CIRCLE_BRANCH
+      - run: echo ${BRANCH}
+      - run: echo ${CIRCLE_BRANCH}
       - run:
           name: Check contexts env name
           shell: /bin/bash
           command: |
-              if [[ ${CIRCLE_BRANCH} == ${BRANCH} ]]; then
+              if [[ $CIRCLE_BRANCH == $BRANCH ]]; then
                    echo "Branch match --> go go go"
                    exit 0
                  else 
