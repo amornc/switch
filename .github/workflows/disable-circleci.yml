@@ -26,11 +26,6 @@ jobs:
               echo "Processing repository $line"
               mkdir "$line"
               cd $line
-              ## initinal git repository
-              #git init
-              #git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
-              #git fetch $line
-              #git checkout $line/main -- .github
               echo "echo Get workflows id"
               gh api \
               -H "Accept: application/vnd.github+json" \
