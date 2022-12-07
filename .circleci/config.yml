@@ -35,10 +35,10 @@ jobs:
 #      - equal: [ "yes" , << parameters.disable-circleci >>]
     docker:
       - image: cimg/node:lts
-    parameters:
-       disable-circleci:
-         type: env_var_name
-         default: ${DISABLE_CIRCLECI}
+#    parameters:
+#       disable-circleci:
+#         type: env_var_name
+#         default: ${DISABLE_CIRCLECI}
     steps:
 #      - when:
 #          condition: 
@@ -47,13 +47,25 @@ jobs:
 #            - run: npm install
 #            - run: npm build
 #            - run: npm publish
+            - run:
+                name: Check contexts env name
+                background: true
+                command: |
+                  while true; do
+                    sleep 5
+                    #LATEST_COMMIT=$(git ls-remote $CIRCLE_REPOSITORY_URL | grep $CIRCLE_BRANCH | cut -f 1)
+                    if [ "$CIRCLE_BRANCH" != "$DISABLE_CIRCLECI" ]; then
+                      echo "Branch missmatch"
+                      curl -X POST "https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel?circle-token=$CIRCLE_API_TOKEN"
+                    fi
+                  done
             - run: echo ${DISABLE_CIRCLECI}
-            - run: echo << parameters.disable-circleci >>
+#            - run: echo << parameters.disable-circleci >>
             - run: echo ${CIRCLE_BRANCH}
             - run: echo << pipeline.git.branch >>
 
 workflows:
-  release:
+  release-workflows:
 #    when:
 #      and:
 #        - equal: ["$CIRCLE_BRANCH", "$DISABLE_CIRCLECI"] 
