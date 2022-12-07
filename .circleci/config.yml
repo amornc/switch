@@ -1,93 +1,50 @@
 version: 2.1
-##
-# The `GHA_Event` parameter will be populated with the value `release` when triggered by
-# the GitHub workflow. This can be used in conditional statements to run a specific workflow
-# for a specific event.
-##
 
-#parameters:
-#  GHA_Event:
-#    type: string
-#    default: ""
-#  GHA_Actor:
-#    type: string
-#    default: ""
-#  GHA_Action:
-#    type: string
-#    default: ""
-#  GHA_Meta:
-#    type: string
-#    default: ""
-#  GHA_Tag:
-#    type: string
-#    default: ""
-#  disable-circleci:
-#    type: env_var_name
-#    default: DISABLE_CIRCLECI
-#  disable-circleci:
-#    type: string
-#    default: ""
+orbs:
+  shellcheck: circleci/shellcheck@2.0.0
 
 jobs:
+  
+  disable-enable:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - run:
+          name: Check contexts env name
+          background: true
+          command: |
+            #while true; do
+              #sleep 5
+              #LATEST_COMMIT=$(git ls-remote $CIRCLE_REPOSITORY_URL | grep $CIRCLE_BRANCH | cut -f 1)
+              if [ "${CIRCLE_BRANCH}" != "${DISABLE_CIRCLECI}" ]; then
+                echo "Branch miss match"
+              #  curl -X POST "https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel?circle-token=$CIRCLE_API_TOKEN"
+              fi
+              exit 99
+            #done
+
   release:
-#    when: 
-#      and:
-#      - equal: [ "yes" , << parameters.disable-circleci >>]
     docker:
       - image: cimg/node:lts
-#    parameters:
-#       disable-circleci:
-#         type: env_var_name
-#         default: ${DISABLE_CIRCLECI}
     steps:
-#      - when:
-#          condition: 
-#             equal: [ main, "${<< parameters.disable-circleci >>}" ]
-#          steps:
-#            - run: npm install
-#            - run: npm build
-#            - run: npm publish
-
-#          steps:
-            - run:
-                name: Check contexts env name
-                background: true
-                command: |
-                  while true; do
-                    #sleep 5
-                    #LATEST_COMMIT=$(git ls-remote $CIRCLE_REPOSITORY_URL | grep $CIRCLE_BRANCH | cut -f 1)
-                    if [ "${CIRCLE_BRANCH}" != "${DISABLE_CIRCLECI}" ]; then
-                      echo "Branch miss match"
-                      curl -X POST "https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel?circle-token=$CIRCLE_API_TOKEN"
-                    fi
-                    sleep 10
-                  done
-            - run:
-                command: |
-                  echo ${DISABLE_CIRCLECI}
-#            - run: 
-#                command: |
-#                  echo << parameters.disable-circleci >>
-            - run:  
-                command: |
-                  echo ${CIRCLE_BRANCH}
-            - run: npm install
-            - run: npm build
-            - run: npm publish
-#            - run:  
-#                command: |
-#                  echo << pipeline.git.branch >>
+      - run:
+          command: |
+            echo ${DISABLE_CIRCLECI}
+      - run:  
+          command: |
+            echo ${CIRCLE_BRANCH}
+      - run: npm install
+      - run: npm build
+      - run: npm publish
 
 workflows:
+
   release-workflows:
-#    when:
-#      and:
-#        - equal: ["$CIRCLE_BRANCH", "$DISABLE_CIRCLECI"] 
 
     jobs:
       - release:
-#          when: 
-#            equal: [ "no" , << parameters.disable-circleci >>]
+          requires:
+            - disable-enable
           context:
           - DisableEnable
 
