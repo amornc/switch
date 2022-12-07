@@ -12,15 +12,13 @@ jobs:
           name: Check contexts env name
           shell: /bin/bash
           command: |
-            #while true; do
-              if [[ $CIRCLE_BRANCH == $BRANCH ]]; then
-                   echo "Branch match"
+              if [[ ${CIRCLE_BRANCH} == ${BRANCH} ]]; then
+                   echo "Branch match --> go go go"
                    exit 0
                  else 
-                   echo "Branch miss match"
+                   echo "Branch miss match --> STOP!!!"
               fi
               exit 99
-            #done
 
   release:
     docker:
