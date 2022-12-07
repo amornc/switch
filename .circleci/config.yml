@@ -40,12 +40,12 @@ jobs:
 workflows:
 
   release-workflows:
-
     jobs:
-      - release:
-          requires:
-            - disable-enable
-          context:
+    - disable-enable:
+        context:
           - DisableEnable
+    - release:
+        requires:
+          - "disable-enable"
 
 # VS Code Extension Version: 1.4.0
