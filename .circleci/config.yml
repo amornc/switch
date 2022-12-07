@@ -9,6 +9,8 @@ jobs:
     docker:
       - image: 'cimg/base:stable'
     steps:
+      - run: echo $DISABLE_CIRCLECI
+      - run: echo $CIRCLE_BRANCH
       - run:
           name: Check contexts env name
           background: true
@@ -22,7 +24,7 @@ jobs:
             #  fi
             #  exit 99
             #done
-            if [[ ${CIRCLE_BRANCH}" == "${DISABLE_CIRCLECI}" ]]; then
+            if [[ $CIRCLE_BRANCH == $DISABLE_CIRCLECI ]]; then
                    echo "CIRCLE_BRANCH match DISABLE_CIRCLECI"
                    exit 0
                else
@@ -35,12 +37,12 @@ jobs:
     docker:
       - image: cimg/node:lts
     steps:
-      - run:
-          command: |
-            echo ${DISABLE_CIRCLECI}
-      - run:  
-          command: |
-            echo ${CIRCLE_BRANCH}
+      #- run:
+      #    command: |
+      #      echo ${DISABLE_CIRCLECI}
+      #- run:  
+      #    command: |
+      #      echo ${CIRCLE_BRANCH}
       - run: npm install
       - run: npm build
       - run: npm publish
