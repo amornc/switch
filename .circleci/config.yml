@@ -9,14 +9,29 @@ jobs:
     docker:
       - image: 'cimg/base:stable'
     steps:
-      - when:
-          condition:
-            or:
-              - and:
-                - equal: [ main, $DISABLE_CIRCLECI ]
-          steps:
-            - run: echo $DISABLE_CIRCLECI
-            - run: echo $CIRCLE_BRANCH
+      - run: echo $DISABLE_CIRCLECI
+      - run: echo $CIRCLE_BRANCH
+      - run:
+          name: Check contexts env name
+          background: true
+          command: |
+            while true; do
+              #sleep 5
+              #LATEST_COMMIT=$(git ls-remote $CIRCLE_REPOSITORY_URL | grep $CIRCLE_BRANCH | cut -f 1)
+              if [ "${CIRCLE_BRANCH}" == "${DISABLE_CIRCLECI}" ]; then
+                echo "Branch match"
+              #  curl -X POST "https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel?circle-token=$CIRCLE_API_TOKEN"
+              fi
+              exit 99
+            done
+            #if [[ $CIRCLE_BRANCH == $DISABLE_CIRCLECI ]]; then
+            #       echo "CIRCLE_BRANCH match DISABLE_CIRCLECI"
+            #       exit 0
+            #   else
+            #       echo "CIRCLE_BRANCH miss match DISABLE_CIRCLECI"
+            #       #echo "retry $i from 10"
+            #fi
+            #exit 99
 
 
   release:
