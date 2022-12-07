@@ -82,10 +82,10 @@ workflows:
 #        - equal: ["$CIRCLE_BRANCH", "$DISABLE_CIRCLECI"] 
 
     jobs:
-      - release
+      - release:
 #          when: 
 #            equal: [ "no" , << parameters.disable-circleci >>]
-#          context:
-#          - DisableEnable
+          context:
+          - DisableEnable
 
 # VS Code Extension Version: 1.4.0
