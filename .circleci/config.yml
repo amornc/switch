@@ -5,7 +5,7 @@ version: 2.1
 # for a specific event.
 ##
 
-parameters:
+#parameters:
 #  GHA_Event:
 #    type: string
 #    default: ""
@@ -35,6 +35,10 @@ jobs:
 #      - equal: [ "yes" , << parameters.disable-circleci >>]
     docker:
       - image: cimg/node:lts
+    parameters:
+       disable-circleci:
+         type: env_var_name
+         default: DISABLE_CIRCLECI
     steps:
 #      - when:
 #          condition: 
@@ -44,6 +48,7 @@ jobs:
 #            - run: npm build
 #            - run: npm publish
             - run: echo ${DISABLE_CIRCLECI}
+            - run: echo << parameters.disable-circleci >>
             - run: echo ${CIRCLE_BRANCH}
             - run: echo << pipeline.git.branch >>
 
@@ -59,3 +64,5 @@ workflows:
 #            equal: [ "no" , << parameters.disable-circleci >>]
           context:
           - DisableEnable
+
+# VS Code Extension Version: 1.4.0
