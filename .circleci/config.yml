@@ -1,22 +1,19 @@
 version: 2.1
 
-#orbs:
-#  shellcheck: circleci/shellcheck@2.0.0
-
 jobs:
   
   disable-enable:
     docker:
       - image: 'cimg/base:stable'
     steps:
-      - run: echo $DISABLE_CIRCLECI
+      - run: echo $BRANCH
       - run: echo $CIRCLE_BRANCH
       - run:
           name: Check contexts env name
           shell: /bin/bash
           command: |
             while true; do
-              if [ $CIRCLE_BRANCH == $DISABLE_CIRCLECI ]; then
+              if [ $CIRCLE_BRANCH == $BRANCH ]; then
                    echo "Branch match"
                    exit 0
                  else 
@@ -29,12 +26,7 @@ jobs:
     docker:
       - image: cimg/node:lts
     steps:
-      #- run:
-      #    command: |
-      #      echo ${DISABLE_CIRCLECI}
-      #- run:  
-      #    command: |
-      #      echo ${CIRCLE_BRANCH}
+
       - run: npm install
       - run: npm build
       - run: npm publish
