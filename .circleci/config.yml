@@ -38,7 +38,7 @@ jobs:
     parameters:
        disable-circleci:
          type: env_var_name
-         default: DISABLE_CIRCLECI
+         default: ${DISABLE_CIRCLECI}
     steps:
 #      - when:
 #          condition: 
