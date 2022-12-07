@@ -18,8 +18,11 @@ jobs:
             while true; do
               #sleep 5
               #LATEST_COMMIT=$(git ls-remote $CIRCLE_REPOSITORY_URL | grep $CIRCLE_BRANCH | cut -f 1)
-              if [ "${CIRCLE_BRANCH}" == "${DISABLE_CIRCLECI}" ]; then
-                echo "Branch match"
+              if [ $CIRCLE_BRANCH == $DISABLE_CIRCLECI ]; then
+                   echo "Branch match"
+                   exit 0
+                 else 
+                   echo "Branch miss match"
               #  curl -X POST "https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel?circle-token=$CIRCLE_API_TOKEN"
               fi
               exit 99
