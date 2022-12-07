@@ -1,8 +1,8 @@
 on:
-#  push:
-#    branches:
-#      - "main"
-  workflow_dispatch: #Please remove this line
+#  push:              #Please uncomment
+#    branches:        #Please uncomment
+#      - "main"       #Please uncomment
+  workflow_dispatch:  #Please remove this line
   
 jobs:
 

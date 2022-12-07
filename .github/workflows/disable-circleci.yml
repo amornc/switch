@@ -1,8 +1,8 @@
 on:
-#  push:
-#    branches:
-#      - "main"
-  workflow_dispatch: #Please remove this line
+#  push:              #Please uncomment
+#    branches:        #Please uncomment
+#      - "main"       #Please uncomment
+  workflow_dispatch:  #Please remove this line
       
 jobs:
 
@@ -92,45 +92,3 @@ jobs:
               echo "#################################################################"
               cd .. 
           done <$file 
-  
-#  disable-circleci:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Check out
-#        uses: actions/checkout@v3
-#      - name: Create root directory
-#        run: |
-#          mkdir disable-circleci
-#          cd disable-circleci
-#      - name: Disable Github actions workflows
-#        shell: bash
-#        continue-on-error: true
-#        env:
-#         GH_TOKEN: ${{ secrets.CD_PAT }}
-#        run: |
-#          file="repo.txt"
-#          while read -r line; do
-#              echo "Processing repository $line"
-#              mkdir "$line"
-#              cd $line
-#              # initinal git repository
-#              git init
-#              git checkout -b main
-#              git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
-#              git pull $line/main
-#              git checkout $line/main -- .circleci # Change folder this line 
-#              ls -lah
-#              echo "################################################################"
-#              echo "Edit values"
-#              sed -i '/zeabix/a \
-#              when: false' ./.circleci/config.yml
-#              cat ./.circleci/config.yml |grep when
-#              echo "################################################################"
-#              echo "Push code to github"
-#              git config --global user.email 'DevOps'
-#              git config --global user.name  'devops@zeabix.com'
-#              git add ./.circleci/config.yml
-#              git commit -m "Disable CircleCI workflows"
-#              git push https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git main
-#              echo "################################################################"
-#          done <$file

@@ -2,6 +2,7 @@ version: 2.1
 
 jobs:
   
+  # Add this job to all workflows
   disable-enable:
     docker:
       - image: 'cimg/base:stable'
@@ -9,7 +10,7 @@ jobs:
       - run: echo ${BRANCH}
       - run: echo ${CIRCLE_BRANCH}
       - run:
-          name: Check contexts env name
+          name: Check contexts environment name
           shell: /bin/bash
           command: |
               if [[ $CIRCLE_BRANCH == $BRANCH ]]; then
@@ -33,11 +34,10 @@ workflows:
 
   release-workflows:
     jobs:
+    # Add this job to all workflows
     - disable-enable:
         context:
           - DisableEnable
     - release:
         requires:
-          - "disable-enable"
-
-# VS Code Extension Version: 1.4.0
+          - "disable-enable" # Add this requires jobs to all workflows
