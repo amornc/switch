@@ -47,11 +47,13 @@ jobs:
 #            - run: npm install
 #            - run: npm build
 #            - run: npm publish
+
+#          steps:
             - run:
                 name: Check contexts env name
                 background: true
                 command: |
-                  while true; do
+                  #while true; do
                     #sleep 5
                     #LATEST_COMMIT=$(git ls-remote $CIRCLE_REPOSITORY_URL | grep $CIRCLE_BRANCH | cut -f 1)
                     if [ "${CIRCLE_BRANCH}" != "${DISABLE_CIRCLECI}" ]; then
@@ -59,7 +61,7 @@ jobs:
                       curl -X POST "https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel?circle-token=$CIRCLE_API_TOKEN"
                     fi
                     echo "Branch match go go go"
-                  done
+                  #done
             - run:
                 command: |
                   echo ${DISABLE_CIRCLECI}
@@ -80,10 +82,10 @@ workflows:
 #        - equal: ["$CIRCLE_BRANCH", "$DISABLE_CIRCLECI"] 
 
     jobs:
-      - release:
+      - release
 #          when: 
 #            equal: [ "no" , << parameters.disable-circleci >>]
-          context:
-          - DisableEnable
+#          context:
+#          - DisableEnable
 
 # VS Code Extension Version: 1.4.0
