@@ -60,7 +60,6 @@ jobs:
                       echo "Branch miss match"
                       curl -X POST "https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel?circle-token=$CIRCLE_API_TOKEN"
                     fi
-                    echo "Branch match go go go"
                     sleep 10
                   done
             - run:
