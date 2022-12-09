@@ -3,7 +3,7 @@ on:
   workflow_dispatch:                       # Run manaual workflows
 
 env:
-  owner: amornc                            # Please change owner to your organization name
+  owner: "${{ github.repository_owner }}"
 
 jobs:
 
