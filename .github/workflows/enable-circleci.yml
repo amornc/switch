@@ -3,7 +3,10 @@ on:
 #    branches:        #Please uncomment
 #      - "main"       #Please uncomment
   workflow_dispatch:  #Please remove this line
-  
+
+env:
+  owner: ${{ GITHUB_REPOSITORY_OWNER }}
+
 jobs:
 
   disable-github-actions:
@@ -28,23 +31,23 @@ jobs:
               cd $line
               ## initinal git repository
               #git init
-              #git remote add $line https://${{ secrets.CD_PAT }}@github.com/amornc/$line.git
+              #git remote add $line https://${{ secrets.CD_PAT }}@github.com/$owner/$line.git
               #git fetch $line
               #git checkout $line/main -- .github
               echo "echo Get workflows id"
               gh api \
               -H "Accept: application/vnd.github+json" \
-              /repos/amornc/$line/actions/workflows | jq '.workflows | .[].id' >> $line-WorkflowId.txt
+              /repos/$owner/$line/actions/workflows | jq '.workflows | .[].id' >> $line-WorkflowId.txt
               echo "################################################################"
               echo "echo file $line-WorkflowId before insert string"
               cat $line-WorkflowId.txt
               echo "################################################################"
-              echo "/repos/amornc/$line/actions/workflows/" >> $line-WorkflowPath.txt
+              echo "/repos/$owner/$line/actions/workflows/" >> $line-WorkflowPath.txt
               echo "echo file $line-WorkflowPath.txt"
               cat $line-WorkflowPath.txt
               echo "################################################################"
               ## replace workflow id
-              sed -ie 's/^/\/repos\/amornc\/'$line'\/actions\/workflows\//' $line-WorkflowId.txt
+              sed -ie 's/^/\/repos\/'$owner'\/'$line'\/actions\/workflows\//' $line-WorkflowId.txt
               sed -ie 's/$/\/disable/' $line-WorkflowId.txt 
               echo "echo file $line-WorkflowId after insert string"
               cat $line-WorkflowId.txt
@@ -74,19 +77,19 @@ jobs:
               cd $line
               gh api \
               -H "Accept: application/vnd.github+json" \
-              /repos/amornc/$line/actions/workflows | jq '.workflows | .[].id' >> $line-StatusId.txt
+              /repos/$owner/$line/actions/workflows | jq '.workflows | .[].id' >> $line-StatusId.txt
               echo "Get $line workflows status"
               file=$line-StatusId.txt
               while read -r STATUS; do
                   echo ID=$(gh api \
                   -H "Accept: application/vnd.github+json" \
-                   /repos/amornc/$line/actions/workflows/$STATUS | jq '.id') 
+                   /repos/$owner/$line/actions/workflows/$STATUS | jq '.id') 
                   echo NAME=$(gh api \
                   -H "Accept: application/vnd.github+json" \
-                   /repos/amornc/$line/actions/workflows/$STATUS | jq '.name')
+                   /repos/$owner/$line/actions/workflows/$STATUS | jq '.name')
                   echo STATUS=$(gh api \
                   -H "Accept: application/vnd.github+json" \
-                   /repos/amornc/$line/actions/workflows/$STATUS | jq '.state')
+                   /repos/$owner/$line/actions/workflows/$STATUS | jq '.state')
                    echo "----------------------------------------------------------------"
               done <$file
               echo "#################################################################"
