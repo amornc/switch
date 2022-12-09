@@ -5,7 +5,7 @@ on:
   workflow_dispatch:  #Please remove this line
 
 env:
-  owner: ${{ GITHUB_REPOSITORY_OWNER }}
+  owner: $GITHUB_REPOSITORY_OWNER
 
 jobs:
 
