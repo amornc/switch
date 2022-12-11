@@ -36,6 +36,14 @@ workflows:
     jobs:
     # Add this job to all workflows
     - disable-enable:
+        filters:
+            branches:
+              only:
+              - develop
+              - main
+              - master
+              - release
+              - /hotfix.*/
         context:
           - DisableEnable
     - release:
