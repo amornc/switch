@@ -1,19 +1,36 @@
 on:
 
   workflow_dispatch:                       # Run manaual workflows
+    inputs:
+      switch:
+        description: 'Enable github actions = update secrets to "githubactions both circleci and github actions"
+                      Disable github actions = update secrets to "circleci both circleci and github actions"'
+        required: true
+        default: 'circleci'
+        type: choice
+        options:
+        - circleci
+        - githubactions
 
 env:
   owner: "${{ github.repository_owner }}"  # Get owner name
   CIRCLE_API_TOKEN: '${{ secrets.CIRCLE_API_TOKEN }}'
-#  CIRCLECIOWNERID: "b9220c3e-af27-45bc-827d-fc8cf20653a3"
   CIRCLECICONTEXTID: "b8a14bf5-4914-4e46-b0a6-e5abf21c944e"
+  switch: ${{ inputs.switch }}
 
 jobs:
-
-  switch-actions:                   # Job name "switch-action"
+  
+  check-inputs:
     runs-on: ubuntu-latest                 # OS selection for run
-    steps:
-      - name: test login circleci
+    env:                                     # Set environment variable
+         GH_TOKEN: ${{ secrets.CD_PAT }}
+    steps: 
+      - name: Update Github actions secrets to "githubactions"
+        if: ${{ inputs.switch == 'githubactions'}}
+        run: |
+          gh secret set CICD --org zeabix-cloud-native --visibility all -b "githubactions"
+      - name: Update CircleCI secrets to "githubactions"
+        if: ${{ inputs.switch == 'githubactions'}}
         run: |
           echo "################################################################"
           echo "Update CIRCLECISECRET to 'githubactions'"
@@ -43,134 +60,168 @@ jobs:
                --header 'content-type: application/json' \
                --data '{"value":"githubactions"}'
 
-#      - name: test CICD env
-#        id: cicd-env
-#        env: 
-#          CICD: ${{ secrets.CICD }}
-#        run: |
-#          echo "cicd-secrets=$CICD" >> $GITHUB_OUTPUT      
-#      - name: Check out                    # step name "Check out" 
-#        uses: actions/checkout@v3          # checkout repository
-#      - name: Create root directory        # step name "Create root directory"
-#        run: |                             # Run command line
-#          mkdir switch-actions
-#          cd switch-actions
-#      - name: Enable Github actions workflows    # step name "Enable Github actions workflows"
-#        if: ${{ steps.cicd-env.outputs.cicd-secrets == 'githubactions' }}  # Conditional
-#        shell: bash                              # Use bash shell
-#        env:                                     # Set environment variable
-#         GH_TOKEN: ${{ secrets.CD_PAT }}         # Environment name: GH_TOKEN, value= secret name CD_PAT
-#        run: |                                   # Run command line
-#          file="repo.txt"
-#          while read -r line; do
-#              echo "Processing repository $line"
-#              mkdir "$line"
-#              cd $line
-#              echo "echo Get workflows id"
-#              gh api \
-#              -H "Accept: application/vnd.github+json" \
-#              /repos/$owner/$line/actions/workflows | jq '.workflows | .[].id' >> $line-WorkflowId.txt
-#              echo "################################################################"
-#              echo "echo file $line-WorkflowId before insert string"
-#              cat $line-WorkflowId.txt
-#              echo "################################################################"
-#              echo "/repos/$owner/$line/actions/workflows/" >> $line-WorkflowPath.txt
-#              echo "echo file $line-WorkflowPath.txt"
-#              cat $line-WorkflowPath.txt
-#              echo "################################################################"
-#              ## replace workflow id
-#              sed -ie 's/^/\/repos\/'$owner'\/'$line'\/actions\/workflows\//' $line-WorkflowId.txt
-#              sed -ie 's/$/\/enable/' $line-WorkflowId.txt
-#              echo "echo file $line-WorkflowId after insert string"
-#              cat $line-WorkflowId.txt
-#              echo "################################################################"
-#              echo "Enabling $line workflows"
-#              file=$line-WorkflowId.txt
-#              while read -r ID; do
-#                  gh api \
-#                   --method PUT \
-#                   -H "Accept: application/vnd.github+json" \
-#                   $ID
-#              done <$file
-#              echo "################################################################"
-#              echo "Enabled $line workflows"
-#              echo "################################################################"
-#              cd .. 
-#          done <$file
-#          echo "################################################################"
-#          echo "Update CIRCLECISECRET to 'githubactions'"
-#          echo "################################################################"
-#          echo "Install circleci commandline tools"
-#          curl -fLSs https://raw.githubusercontent.com/CircleCI-Public/circleci-cli/master/install.sh | bash
+      - name: Update Github actions secrets to "circleci"
+        if: ${{ inputs.switch == 'circleci'}}
+        run: |
+          gh secret set CICD --org zeabix-cloud-native --visibility all -b "circleci"
+      - name: Update CircleCI secrets to "circleci"
+        if: ${{ inputs.switch == 'circleci'}}
+        run: |
+          echo "################################################################"
+          echo "Update CIRCLECISECRET to 'githubactions'"
+          echo "################################################################"
+          echo "Install circleci commandline tools"
+          curl -fLSs https://raw.githubusercontent.com/CircleCI-Public/circleci-cli/master/install.sh | bash
+          echo "################################################################"
+          #echo "Prepare environment variable"
+          #echo "Get owner-id"
+          #echo "export CIRCLECIOWNERID=$(curl --request GET \
+          #     --url https://circleci.com/api/v2/me/collaborations \
+          #     --header "Circle-Token: $CIRCLE_API_TOKEN" | jq -r '.[0].id')"
+          #echo "Get CircleCI context-id"
+          #echo "export CIRCLECICONTEXTID=$(curl --request GET \
+          #     --url 'https://circleci.com/api/v2/context?owner-id='$CIRCLECIOWNERID'&page-token=NEXT_PAGE_TOKEN' \
+          #     --header "Circle-Token: $CIRCLE_API_TOKEN" | jq -r '.items[] | select(.name=="DisableEnable") | .id')"
+          #echo "################################################################"
+          #echo "Get CircleCI secrets environment"
+          #curl --request GET \
+          #     --url 'https://circleci.com/api/v2/context/'$CIRCLECICONTEXTID'/environment-variable?page-token='$CIRCLECICONTEXTID'' \
+          #     --header "Circle-Token: $CIRCLE_API_TOKEN"
+          #echo "################################################################"
+          echo "Update value CircleCI secrets environment name 'CIRCLECISECRET' to 'githubactions'"
+          curl --request PUT \
+               --url https://circleci.com/api/v2/context/$CIRCLECICONTEXTID/environment-variable/CIRCLECISECRET \
+               --header "Circle-Token: $CIRCLE_API_TOKEN" \
+               --header 'content-type: application/json' \
+               --data '{"value":"circleci"}'
+  
 
-##      - name: Disable Github actions workflows    # step name "Disable Github actions workflows"
-#        if: ${{ steps.cicd-env.outputs.cicd-secrets == 'circleci' }}
-#        shell: bash                              # Use bash shell
-#        env:                                     # Set environment variable
-#         GH_TOKEN: ${{ secrets.CD_PAT }}         # Environment name: GH_TOKEN, value= secret name CD_PAT
-#        run: |                                   # Run command line
-#          file="repo.txt"
-#          while read -r line; do
-#              echo "Processing repository $line"
-#              mkdir "$line"
-#              cd $line
-#              echo "echo Get workflows id"
-#              gh api \
-#              -H "Accept: application/vnd.github+json" \
-#              /repos/$owner/$line/actions/workflows | jq '.workflows | .[].id' >> $line-WorkflowId.txt
-#              echo "################################################################"
-#              echo "echo file $line-WorkflowId before insert string"
-#              cat $line-WorkflowId.txt
-#              echo "################################################################"
-#              echo "/repos/$owner/$line/actions/workflows/" >> $line-WorkflowPath.txt
-#              echo "echo file $line-WorkflowPath.txt"
-#              cat $line-WorkflowPath.txt
-#              echo "################################################################"
-#              ## replace workflow id
-#              sed -ie 's/^/\/repos\/'$owner'\/'$line'\/actions\/workflows\//' $line-WorkflowId.txt
-#              sed -ie 's/$/\/disable/' $line-WorkflowId.txt
-#              echo "echo file $line-WorkflowId after insert string"
-#              cat $line-WorkflowId.txt
-#              echo "################################################################"
-#              echo "Enabling $line workflows"
-#              file=$line-WorkflowId.txt
-#              while read -r ID; do
-#                  gh api \
-#                   --method PUT \
-#                   -H "Accept: application/vnd.github+json" \
-#                   $ID
-#              done <$file
-#              echo "################################################################"
-#              echo "Enabled $line workflows"
-#              echo "################################################################"
-#              cd .. 
-#          done <$file
+  switch-actions:                   # Job name "switch-action"
+    runs-on: ubuntu-latest                 # OS selection for run
+    steps:
+      - name: test CICD env
+        id: cicd-env
+        env: 
+          CICD: ${{ secrets.CICD }}
+        run: |
+          echo "cicd-secrets=$CICD" >> $GITHUB_OUTPUT      
+      - name: Check out                    # step name "Check out" 
+        uses: actions/checkout@v3          # checkout repository
+      - name: Create root directory        # step name "Create root directory"
+        run: |                             # Run command line
+          mkdir switch-actions
+          cd switch-actions
+      - name: Enable Github actions workflows    # step name "Enable Github actions workflows"
+        if: ${{ steps.cicd-env.outputs.cicd-secrets == 'githubactions' }}  # Conditional
+        shell: bash                              # Use bash shell
+        env:                                     # Set environment variable
+         GH_TOKEN: ${{ secrets.CD_PAT }}         # Environment name: GH_TOKEN, value= secret name CD_PAT
+        run: |                                   # Run command line
+          file="repo.txt"
+          while read -r line; do
+              echo "Processing repository $line"
+              mkdir "$line"
+              cd $line
+              echo "echo Get workflows id"
+              gh api \
+              -H "Accept: application/vnd.github+json" \
+              /repos/$owner/$line/actions/workflows | jq '.workflows | .[].id' >> $line-WorkflowId.txt
+              echo "################################################################"
+              echo "echo file $line-WorkflowId before insert string"
+              cat $line-WorkflowId.txt
+              echo "################################################################"
+              echo "/repos/$owner/$line/actions/workflows/" >> $line-WorkflowPath.txt
+              echo "echo file $line-WorkflowPath.txt"
+              cat $line-WorkflowPath.txt
+              echo "################################################################"
+              ## replace workflow id
+              sed -ie 's/^/\/repos\/'$owner'\/'$line'\/actions\/workflows\//' $line-WorkflowId.txt
+              sed -ie 's/$/\/enable/' $line-WorkflowId.txt
+              echo "echo file $line-WorkflowId after insert string"
+              cat $line-WorkflowId.txt
+              echo "################################################################"
+              echo "Enabling $line workflows"
+              file=$line-WorkflowId.txt
+              while read -r ID; do
+                  gh api \
+                   --method PUT \
+                   -H "Accept: application/vnd.github+json" \
+                   $ID
+              done <$file
+              echo "################################################################"
+              echo "Enabled $line workflows"
+              echo "################################################################"
+              cd .. 
+          done <$file
 
-#      - name: Get Github actions workflows status         # step name "Get Github actions workflows status"
-#        shell: bash                                       # Use bash shell
-#        env:                                              # Set environment variable
-#         GH_TOKEN: ${{ secrets.CD_PAT }}                  # Environment name: GH_TOKEN, value= secret name CD_PAT
-#        run: |                                            # Run command line
-#          file="repo.txt"
-#          while read -r line; do
-#              cd $line
-#              gh api \
-#              -H "Accept: application/vnd.github+json" \
-#              /repos/$owner/$line/actions/workflows | jq '.workflows | .[].id' >> $line-StatusId.txt
-#              echo "Get $line workflows status"
-#              file=$line-StatusId.txt
-#              while read -r STATUS; do
-#                  echo ID=$(gh api \
-#                  -H "Accept: application/vnd.github+json" \
-#                   /repos/$owner/$line/actions/workflows/$STATUS | jq '.id') 
-#                  echo NAME=$(gh api \
-#                  -H "Accept: application/vnd.github+json" \
-#                   /repos/$owner/$line/actions/workflows/$STATUS | jq '.name')
-#                  echo STATUS=$(gh api \
-#                  -H "Accept: application/vnd.github+json" \
-#                   /repos/$owner/$line/actions/workflows/$STATUS | jq '.state')
-#                   echo "----------------------------------------------------------------"
-#              done <$file
-#              echo "#################################################################"
-#              cd .. 
-#          done <$file 
+      - name: Disable Github actions workflows    # step name "Disable Github actions workflows"
+        if: ${{ steps.cicd-env.outputs.cicd-secrets == 'circleci' }}
+        shell: bash                              # Use bash shell
+        env:                                     # Set environment variable
+         GH_TOKEN: ${{ secrets.CD_PAT }}         # Environment name: GH_TOKEN, value= secret name CD_PAT
+        run: |                                   # Run command line
+          file="repo.txt"
+          while read -r line; do
+              echo "Processing repository $line"
+              mkdir "$line"
+              cd $line
+              echo "echo Get workflows id"
+              gh api \
+              -H "Accept: application/vnd.github+json" \
+              /repos/$owner/$line/actions/workflows | jq '.workflows | .[].id' >> $line-WorkflowId.txt
+              echo "################################################################"
+              echo "echo file $line-WorkflowId before insert string"
+              cat $line-WorkflowId.txt
+              echo "################################################################"
+              echo "/repos/$owner/$line/actions/workflows/" >> $line-WorkflowPath.txt
+              echo "echo file $line-WorkflowPath.txt"
+              cat $line-WorkflowPath.txt
+              echo "################################################################"
+              ## replace workflow id
+              sed -ie 's/^/\/repos\/'$owner'\/'$line'\/actions\/workflows\//' $line-WorkflowId.txt
+              sed -ie 's/$/\/disable/' $line-WorkflowId.txt
+              echo "echo file $line-WorkflowId after insert string"
+              cat $line-WorkflowId.txt
+              echo "################################################################"
+              echo "Enabling $line workflows"
+              file=$line-WorkflowId.txt
+              while read -r ID; do
+                  gh api \
+                   --method PUT \
+                   -H "Accept: application/vnd.github+json" \
+                   $ID
+              done <$file
+              echo "################################################################"
+              echo "Enabled $line workflows"
+              echo "################################################################"
+              cd .. 
+          done <$file
+
+      - name: Get Github actions workflows status         # step name "Get Github actions workflows status"
+        shell: bash                                       # Use bash shell
+        env:                                              # Set environment variable
+         GH_TOKEN: ${{ secrets.CD_PAT }}                  # Environment name: GH_TOKEN, value= secret name CD_PAT
+        run: |                                            # Run command line
+          file="repo.txt"
+          while read -r line; do
+              cd $line
+              gh api \
+              -H "Accept: application/vnd.github+json" \
+              /repos/$owner/$line/actions/workflows | jq '.workflows | .[].id' >> $line-StatusId.txt
+              echo "Get $line workflows status"
+              file=$line-StatusId.txt
+              while read -r STATUS; do
+                  echo ID=$(gh api \
+                  -H "Accept: application/vnd.github+json" \
+                   /repos/$owner/$line/actions/workflows/$STATUS | jq '.id') 
+                  echo NAME=$(gh api \
+                  -H "Accept: application/vnd.github+json" \
+                   /repos/$owner/$line/actions/workflows/$STATUS | jq '.name')
+                  echo STATUS=$(gh api \
+                  -H "Accept: application/vnd.github+json" \
+                   /repos/$owner/$line/actions/workflows/$STATUS | jq '.state')
+                   echo "----------------------------------------------------------------"
+              done <$file
+              echo "#################################################################"
+              cd .. 
+          done <$file 
