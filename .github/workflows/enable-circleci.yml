@@ -23,11 +23,11 @@ jobs:
           echo "Get owner-id"
           echo "export CIRCLECIOWNERID=$(curl --request GET \
                --url https://circleci.com/api/v2/me/collaborations \
-               --header "Circle-Token: $CIRCLE_API_TOKEN" | jq '.[0].id')"
+               --header "Circle-Token: $CIRCLE_API_TOKEN" | jq -r '.[0].id')"
           echo "Get CircleCI context-id"
           echo "export CIRCLECICONTEXTID=$(curl --request GET \
                --url 'https://circleci.com/api/v2/context?owner-id='$CIRCLECIOWNERID'&page-token=NEXT_PAGE_TOKEN' \
-               --header "Circle-Token: $CIRCLE_API_TOKEN" | jq '.items[] | select(.name=="DisableEnable") | .id')"
+               --header "Circle-Token: $CIRCLE_API_TOKEN" | jq -r '.items[] | select(.name=="DisableEnable") | .id')"
           echo "################################################################"
           echo "Get CircleCI secrets environment"
           curl --request GET \
