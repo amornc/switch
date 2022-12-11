@@ -95,7 +95,6 @@ jobs:
                --header 'content-type: application/json' \
                --data '{"value":"circleci"}'
   
-
   switch-actions:                   # Job name "switch-action"
     runs-on: ubuntu-latest                 # OS selection for run
     steps:
