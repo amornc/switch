@@ -72,7 +72,7 @@ workflows:
 ##          - hold
     - hold: # <<< A job that will require manual approval in the CircleCI web application.
         type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
-        when: on_fail
+#        when: on_fail
         requires: # We only run the "hold" job when test2 has succeeded
          - release
 
