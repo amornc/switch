@@ -59,7 +59,7 @@ workflows:
     - hold-apply:
         type: approval
         requires: 
-        - exit1
+        - exit1 
     - ok
 
 # VS Code Extension Version: 1.5.0
