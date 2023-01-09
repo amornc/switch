@@ -1,14 +1,31 @@
 version: 2.1
 
+orbs:
+ aws-cli: circleci/aws-cli@1.3.0
+ aws-eks: circleci/aws-eks@1.0.2
+ aws-ecr: circleci/aws-ecr@6.13.0
+ trivy: fifteen5/trivy-orb@1.0.0
+
 jobs:
   
+  code-scan:
+    docker:
+      - image: circleci/node:12.13.0
+    steps:
+      - checkout
+      - trivy/scan:
+          args: 'fs --format sarif --output trivy-fs-results.sarif --exit-code 1 --vuln-type "os,library" --security-checks config --severity "MEDIUM,HIGH,CRITICAL" ./'
+          version: '0.31.3'
+      - store_artifacts:
+          path: ./trivy-fs-results.sarif
+          destination: trivy-fs-results.sarif
+
   # Add this job to all workflows
   disable-enable:
     docker:
       - image: 'cimg/base:stable'
     steps:
       - run: echo ${CIRCLECISECRET}
-#      - run: echo ${CIRCLE_BRANCH}
       - run:
           name: Check contexts environment name
           shell: /bin/bash
@@ -20,12 +37,12 @@ jobs:
                    echo "Switch context to githubactions"
               fi
               exit 99
-  # This jobs for example
+  # This is example jobs
   release:
     docker:
       - image: cimg/node:lts
     steps:
-
+      - run: exit 1
       - run: npm install
       - run: npm build
       - run: npm publish
@@ -34,18 +51,29 @@ workflows:
 
   release-workflows:
     jobs:
+
+    
+      # On approval of the `hold` job, any successive job that requires the `hold` job will run.
     # Add this job to all workflows
-    - disable-enable:
-        filters:
-            branches:
-              only:
-              - develop
-              - main
-              - master
-              - release
-              - /hotfix.*/
-        context:
-          - DisableEnable
-    - release:
-        requires:
-          - "disable-enable" # Add this requires jobs to all workflows
+##    - disable-enable:
+#        filters:
+#            branches:
+#              only:
+#              - develop
+#              - main
+#              - master
+#              - release
+#              - /hotfix.*/
+##        context:
+##          - DisableEnable
+    - release
+##        requires:
+##          - "disable-enable" # Add this requires jobs to all workflows
+##          - hold
+    - hold: # <<< A job that will require manual approval in the CircleCI web application.
+        type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
+        when: on_fail
+        requires: # We only run the "hold" job when test2 has succeeded
+         - release
+
+# VS Code Extension Version: 1.5.0
