@@ -38,42 +38,28 @@ jobs:
               fi
               exit 99
   # This is example jobs
-  release:
+  exit1:
     docker:
       - image: cimg/node:lts
     steps:
       - run: exit 1
-      - run: npm install
-      - run: npm build
-      - run: npm publish
+
+  ok:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - run: echo "ok"
 
 workflows:
 
   release-workflows:
     jobs:
 
-    
-      # On approval of the `hold` job, any successive job that requires the `hold` job will run.
-    # Add this job to all workflows
-##    - disable-enable:
-#        filters:
-#            branches:
-#              only:
-#              - develop
-#              - main
-#              - master
-#              - release
-#              - /hotfix.*/
-##        context:
-##          - DisableEnable
-    - release
-##        requires:
-##          - "disable-enable" # Add this requires jobs to all workflows
-##          - hold
-    - hold: # <<< A job that will require manual approval in the CircleCI web application.
-        type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
-#        when: on_fail
-        requires: # We only run the "hold" job when test2 has succeeded
-         - release
+    - exit1
+    - hold-apply:
+        type: approval
+        requires: 
+        - exit1
+    - ok
 
 # VS Code Extension Version: 1.5.0
