@@ -5,6 +5,7 @@ orbs:
  aws-eks: circleci/aws-eks@1.0.2
  aws-ecr: circleci/aws-ecr@6.13.0
  trivy: fifteen5/trivy-orb@1.0.0
+ xmatters: xmatters/xmatters-orb@1.0.4
 
 jobs:
   
@@ -42,7 +43,27 @@ jobs:
     docker:
       - image: cimg/node:lts
     steps:
-      - run: exit 1
+      - run:
+          name: Run commands
+          command: |
+              echo "I will exit fail status"
+              exit 1
+
+      - xmatters/notify:
+          recipients: Engineering Managers
+          when: on_fail
+
+      - run:
+          name: Run on fail status
+          command: |
+              echo "I am result of above failed job"
+
+  request-approval:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - xmatters/notify:
+          recipients: Engineering Managers
 
   ok:
     docker:
@@ -52,17 +73,17 @@ jobs:
 
 workflows:
 
-  release-workflows:
+  exit1-fail-workflows:
     jobs:
-
     - exit1
-    - ApprovetoBuild:
+    - request-approval
+    - hold:
         type: approval
-        when: on_fail
-        requires: 
-        - exit1 
+        requires:
+          - exit1
+          - request-approval
     - ok:
-        requires: 
-        - ApprovetoBuild
+        requires:
+          - hold
 
 # VS Code Extension Version: 1.5.0
