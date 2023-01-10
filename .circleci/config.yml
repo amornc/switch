@@ -49,9 +49,9 @@ jobs:
               echo "I will exit fail status"
               exit 1
 
-      - xmatters/notify:
-          recipients: Engineering Managers
-          when: on_fail
+#      - xmatters/notify:
+#          recipients: Engineering Managers
+#          when: on_fail
 
       - run:
           name: Run on fail status
