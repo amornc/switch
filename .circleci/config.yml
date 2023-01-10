@@ -42,11 +42,7 @@ jobs:
     docker:
       - image: cimg/node:lts
     steps:
-      - run: 
-          name: run exit code\
-          shell: /bin/bash
-          command: |
-            echo exit 1
+      - run: exit 1
 
   ok:
     docker:
