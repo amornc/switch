@@ -58,6 +58,7 @@ workflows:
     - exit1
     - ApprovetoBuild:
         type: approval
+        when: on_fail
         requires: 
         - exit1 
     - ok:
