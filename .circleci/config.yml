@@ -44,7 +44,7 @@ jobs:
     steps:
       - run: 
           name: run exit code\
-          shell: /bin/bash
+#          shell: /bin/bash
           command: |
             run exit 1
 
