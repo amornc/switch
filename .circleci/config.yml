@@ -60,7 +60,7 @@ workflows:
     jobs:
 
     - exit1
-    - hold-apply:
+    - ApprovetoBuild:
         type: approval
         requires: 
         - exit1 
